@@ -8,17 +8,21 @@
     </head>
     <body style="background-color: rgb(94, 94, 94);">
         
+        <!-- Title-->
         <h1 style="text-align: center;">Warhammer: The Horus Heresy Statistics Calculator</h1>
         <h2 style="text-align: center;">For 3<sup>rd</sup> Edition Horus Heresy</h2>
         <h3>How to use:<br>1: Select a Legion<br>2: Select an attacking unit<br>3: Select a defending unit<br>4: Select miscellaneous statuses
             <br>5: Select generate</h3>
         
         <main class="container">
+            <!--New selection-->
             <selection class="stat-calc">
-                
+                <!--Reset selection-->
                 <button type="reset">Reset</button>
                 <br>
                 <br>
+
+                <!--Picking a legion-->
                 <label for="Legion">Choose a Legion:</label>
                 <select name="Legion" id="Legion">
                     <option value="I Dark Angels">I Dark Angels</option>
@@ -29,6 +33,7 @@
                 <br>
                 <br>
 
+                <!--Picking an attacker-->
                 <label for="attacking">Choose an attacking unit:</label>
                 <select name="attacking" id="attacking">
                     <option value="Tactical Squad">Tactical Squad</option>
@@ -37,6 +42,7 @@
                     <option value="Despoiler Squad">Despoiler Squad</option>
                 </select>
                 
+                <!--Picking a defender-->
                 <label for="defending">Choose a defending unit:</label>
                 <select name="attacking" id="attacking">
                      <option value="Tactical Squad">Tactical Squad</option>
@@ -47,6 +53,7 @@
                 <br>
                 <br>
 
+                <!--Misc stats-->
                 <h4>Miscellaneous statuses:</h3>
                 <input type="checkbox" name="cover" value="cover">
                 <label for="cover">Defending unit has cover.</label>
@@ -57,54 +64,61 @@
 
             </selection>
 
-            
+            <!--Table selection-->
             <selection class="stat-calc">
-                <H3>Attacking Model's Stats</H3>
                 <table>
                     <tr>
-                        <th class="A_Movement">M</th>
-                        <th class="A_Weapon Skill">WS</th>
-                        <th class="A_Balistic Skill">BS</th>
-                        <th class="A_Strength">S</th>
-                        <th class="A_Toughness">T</th>
-                        <th class="A_Wounds">W</th>
-                        <th class="A_Initiative">I</th>
-                        <th class="A_Attacks">A</th>
-                        <th class="A_Leadership">LD</th>
-                        <th class="A_Cool">CL</th>
-                        <th class="A_Will Power">WP</th>
-                        <th class="A_Intelligence">IN</th>
-                        <th class="A_Save">SAV</th>
-                        <th class="A_Invulnerable">INV</th>
+                        <th>INSERT_ATTACKING_MODEL</th>
+                        <th>INSERT_DEFENDING_MODEL</th>
                     </tr>
-
-
-                </table>
-
-                <H3>Defending Model's Stats</H3>
-                <table>
                     <tr>
-                        <th class="D_Movement">M</th>
-                        <th class="D_Weapon Skill">WS</th>
-                        <th class="D_Balistic Skill">BS</th>
-                        <th class="D_Strength">S</th>
-                        <th class="D_Toughness">T</th>
-                        <th class="D_Wounds">W</th>
-                        <th class="D_Initiative">I</th>
-                        <th class="D_Attacks">A</th>
-                        <th class="D_Leadership">LD</th>
-                        <th class="D_Cool">CL</th>
-                        <th class="D_Will Power">WP</th>
-                        <th class="D_Intelligence">IN</th>
-                        <th class="D_Save">SAV</th>
-                        <th class="D_Invulnerable">INV</th>
+                        <!--Attacking side of table-->
+                        <th>
+                            <table>
+                                <tr>
+                                  <th class="A_Movement">M</th>
+                                  <th class="A_Weapon Skill">WS</th>
+                                  <th class="A_Balistic Skill">BS</th>
+                                  <th class="A_Strength">S</th>
+                                  <th class="A_Toughness">T</th>
+                                  <th class="A_Wounds">W</th>
+                                  <th class="A_Initiative">I</th>
+                                  <th class="A_Attacks">A</th>
+                                  <th class="A_Leadership">LD</th>
+                                  <th class="A_Cool">CL</th>
+                                  <th class="A_Will Power">WP</th>
+                                  <th class="A_Intelligence">IN</th>
+                                  <th class="A_Save">SAV</th>
+                                  <th class="A_Invulnerable">INV</th>
+                                </tr>
+                            </table>
+                        </th>
+                        <!--Defendint side of table-->
+                        <th>
+                            <table>
+                                <tr>
+                                    <th class="D_Movement">M</th>
+                                    <th class="D_Weapon Skill">WS</th>
+                                    <th class="D_Balistic Skill">BS</th>
+                                    <th class="D_Strength">S</th>
+                                    <th class="D_Toughness">T</th>
+                                    <th class="D_Wounds">W</th>
+                                    <th class="D_Initiative">I</th>
+                                    <th class="D_Attacks">A</th>
+                                    <th class="D_Leadership">LD</th>
+                                    <th class="D_Cool">CL</th>
+                                    <th class="D_Will Power">WP</th>
+                                    <th class="D_Intelligence">IN</th>
+                                    <th class="D_Save">SAV</th>
+                                    <th class="D_Invulnerable">INV</th>
+                                </tr>
+                            </table>
+                        </th>
                     </tr>
-
-
                 </table>
-
-
             </selection>
+
+            <!--Generate Section-->
             <selection class="stat-calc">
                 <br>
                 <br>
@@ -112,6 +126,7 @@
             </selection>
         </main>
 
+        <!--Thank you's-->
         <h6>Thank you to Those on the BSData and Iron Warriors Discord for the help.</h6>
     </body>
 </html>
