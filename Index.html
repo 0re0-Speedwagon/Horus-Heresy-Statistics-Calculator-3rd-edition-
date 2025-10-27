@@ -21,7 +21,8 @@
             <selection class="stat-calc">
                 <!--Picking a legion-->
                 <label for="A_Legion">Choose an attacking Legion:</label>
-                <select name="A_Legion" id="Legion">
+                <select id="A_Legion">
+                    <option value="start">N/A</option>
                     <option value="I Dark Angels">I Dark Angels</option>
                     <option value="III Emperor's Children">III Emperor's Children</option>
                     <option value="IV Iron Warriors">IV Iron Warriors</option>
@@ -29,8 +30,9 @@
                 </select>
                 <br>
                 <!--Picking an attacker-->
-                <label for="attacking">Choose an attacking unit:</label>
-                <select name="attacking" id="attacking">
+                <label for="attacker">Choose an attacking unit:</label>
+                <select id="attacker">
+                    <option value="start">N/A</option>
                     <option value="Tactical Squad">Tactical Squad</option>
                     <option value="Assault Squad">Assault Squad</option>
                     <option value="Breacher Squad">Breacher Squad</option>
@@ -41,7 +43,8 @@
                 <br>
 
                 <label for="D_Legion">Choose a defending Legion:</label>
-                <select name="D_Legion" id="Legion">
+                <select id="D_Legion">
+                    <option value="start">N/A</option>
                     <option value="I Dark Angels">I Dark Angels</option>
                     <option value="III Emperor's Children">III Emperor's Children</option>
                     <option value="IV Iron Warriors">IV Iron Warriors</option>
@@ -50,9 +53,10 @@
                 <br>
 
                 <!--Picking a defender-->
-                <label for="defending">Choose a defending unit:</label>
-                <select name="attacking" id="attacking">
-                     <option value="Tactical Squad">Tactical Squad</option>
+                <label for="defender">Choose a defending unit:</label>
+                <select id="defender">
+                    <option value="start">N/A</option>
+                    <option value="Tactical Squad">Tactical Squad</option>
                     <option value="Assault Squad">Assault Squad</option>
                     <option value="Breacher Squad">Breacher Squad</option>
                     <option value="Despoiler Squad">Despoiler Squad</option>
@@ -126,12 +130,12 @@
                 <br>
                 <br>
                 <label for="generate">Generate data:</label>
-                <button name="generate" type="button">Generate</button>
+                <button id="generate" type="button">Generate</button>
                 <br>
                 <br>
                 <!--Reset selection-->
                 <label for="reset">Reset selections:</label>
-                <button name="reset" type="reset">Reset</button>
+                <button id="reset" type="button">Reset</button>
                 <br>
                 <br>
             </selection>
