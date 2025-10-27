@@ -1,0 +1,22 @@
+html{
+    font-size: 1em;
+    line-height: 1;
+    color: #000000;
+    background-color: gray;
+}
+
+.container{
+    margin: 40px 40px;
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+table{
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+    font-size: 1.25rem;
+}
+th{
+    padding: 10px;
+}
