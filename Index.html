@@ -5,8 +5,10 @@
         <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
         <meta name="HH Calculator"content="width=device-width,
         initial-scale=1.0" />
+        <link rel="stylesheet" href="style.css">
+        <title>Horus Heresy Calculator</title>
     </head>
-    <body style="background-color: rgb(94, 94, 94);">
+    <body>
         
         <!-- Title-->
         <h1 style="text-align: center;">Warhammer: The Horus Heresy Statistics Calculator</h1>
@@ -15,24 +17,17 @@
             <br>5: Select generate</h3>
         
         <main class="container">
-            <!--New selection-->
+            <!--Unit selection-->
             <selection class="stat-calc">
-                <!--Reset selection-->
-                <button type="reset">Reset</button>
-                <br>
-                <br>
-
                 <!--Picking a legion-->
-                <label for="Legion">Choose a Legion:</label>
-                <select name="Legion" id="Legion">
+                <label for="A_Legion">Choose an attacking Legion:</label>
+                <select name="A_Legion" id="Legion">
                     <option value="I Dark Angels">I Dark Angels</option>
                     <option value="III Emperor's Children">III Emperor's Children</option>
                     <option value="IV Iron Warriors">IV Iron Warriors</option>
                     <option value="V White Scars">V White Scars</option>
                 </select>
                 <br>
-                <br>
-
                 <!--Picking an attacker-->
                 <label for="attacking">Choose an attacking unit:</label>
                 <select name="attacking" id="attacking">
@@ -41,7 +36,19 @@
                     <option value="Breacher Squad">Breacher Squad</option>
                     <option value="Despoiler Squad">Despoiler Squad</option>
                 </select>
-                
+                <br>
+                <br>
+                <br>
+
+                <label for="D_Legion">Choose a defending Legion:</label>
+                <select name="D_Legion" id="Legion">
+                    <option value="I Dark Angels">I Dark Angels</option>
+                    <option value="III Emperor's Children">III Emperor's Children</option>
+                    <option value="IV Iron Warriors">IV Iron Warriors</option>
+                    <option value="V White Scars">V White Scars</option>
+                </select>
+                <br>
+
                 <!--Picking a defender-->
                 <label for="defending">Choose a defending unit:</label>
                 <select name="attacking" id="attacking">
@@ -60,60 +67,56 @@
                 <br>
                 <input type="checkbox" name="suppress" value="suppress">
                 <label for="suppress">Attacking unit is Suppressed.</label>
-
-
             </selection>
 
             <!--Table selection-->
             <selection class="stat-calc">
-                <table>
+                <!--Attacker table-->
+                <table name="A_table">
+                    <caption>INSERT_ATTACKER_HERE</caption>
                     <tr>
-                        <th>INSERT_ATTACKING_MODEL</th>
-                        <th>INSERT_DEFENDING_MODEL</th>
+                        <th>M</th>
+                        <th>WS</th>
+                        <th>BS</th>
+                        <th>S</th>
+                        <th>T</th>
+                        <th>W</th>
+                        <th>I</th>
+                        <th>A</th>
+                        <th>LD</th>
+                        <th>CL</th>
+                        <th>WP</th>
+                        <th>IN</th>
+                        <th>SAV</th>
+                        <th>INV</th>
                     </tr>
                     <tr>
-                        <!--Attacking side of table-->
-                        <th>
-                            <table>
-                                <tr>
-                                  <th class="A_Movement">M</th>
-                                  <th class="A_Weapon Skill">WS</th>
-                                  <th class="A_Balistic Skill">BS</th>
-                                  <th class="A_Strength">S</th>
-                                  <th class="A_Toughness">T</th>
-                                  <th class="A_Wounds">W</th>
-                                  <th class="A_Initiative">I</th>
-                                  <th class="A_Attacks">A</th>
-                                  <th class="A_Leadership">LD</th>
-                                  <th class="A_Cool">CL</th>
-                                  <th class="A_Will Power">WP</th>
-                                  <th class="A_Intelligence">IN</th>
-                                  <th class="A_Save">SAV</th>
-                                  <th class="A_Invulnerable">INV</th>
-                                </tr>
-                            </table>
-                        </th>
-                        <!--Defendint side of table-->
-                        <th>
-                            <table>
-                                <tr>
-                                    <th class="D_Movement">M</th>
-                                    <th class="D_Weapon Skill">WS</th>
-                                    <th class="D_Balistic Skill">BS</th>
-                                    <th class="D_Strength">S</th>
-                                    <th class="D_Toughness">T</th>
-                                    <th class="D_Wounds">W</th>
-                                    <th class="D_Initiative">I</th>
-                                    <th class="D_Attacks">A</th>
-                                    <th class="D_Leadership">LD</th>
-                                    <th class="D_Cool">CL</th>
-                                    <th class="D_Will Power">WP</th>
-                                    <th class="D_Intelligence">IN</th>
-                                    <th class="D_Save">SAV</th>
-                                    <th class="D_Invulnerable">INV</th>
-                                </tr>
-                            </table>
-                        </th>
+                        <!--DATA GOES HERE-->
+                    </tr>
+                </table>
+                <br>
+                <br>
+                <!--Defender table-->
+                <table name="D_table">
+                    <caption>INSERT_DEFENDER_HERE</caption>
+                    <tr>
+                        <th>M</th>
+                        <th>WS</th>
+                        <th>BS</th>
+                        <th>S</th>
+                        <th>T</th>
+                        <th>W</th>
+                        <th>I</th>
+                        <th>A</th>
+                        <th>LD</th>
+                        <th>CL</th>
+                        <th>WP</th>
+                        <th>IN</th>
+                        <th>SAV</th>
+                        <th>INV</th>
+                    </tr>
+                    <tr>
+                        <!--DATA GOES HERE-->
                     </tr>
                 </table>
             </selection>
@@ -122,11 +125,23 @@
             <selection class="stat-calc">
                 <br>
                 <br>
-                <button type="button">Generate</button>
+                <label for="generate">Generate data:</label>
+                <button name="generate" type="button">Generate</button>
+                <br>
+                <br>
+                <!--Reset selection-->
+                <label for="reset">Reset selections:</label>
+                <button name="reset" type="reset">Reset</button>
+                <br>
+                <br>
             </selection>
         </main>
 
         <!--Thank you's-->
         <h6>Thank you to Those on the BSData and Iron Warriors Discord for the help.</h6>
+        <script src="main.js">
+
+            
+        </script>
     </body>
 </html>
