@@ -12,15 +12,15 @@ reset.addEventListener("click", function () {
   attacker.value = "start";
   defender.value = "start";
 });
-A_Legion.addEventListener("mouseleave", function () {
+A_Legion.addEventListener("change", function () {
   console.log(A_Legion.value);
 });
-attacker.addEventListener("mouseleave", function () {
+attacker.addEventListener("change", function () {
   console.log(attacker.value);
 });
-D_Legion.addEventListener("mouseleave", function () {
+D_Legion.addEventListener("change", function () {
   console.log(D_Legion.value);
 });
-defender.addEventListener("mouseleave", function () {
+defender.addEventListener("change", function () {
   console.log(defender.value);
 });
