@@ -1,0 +1,27 @@
+{
+  "name": "the_end",
+  "version": "1.0.0",
+  "description": "Welcome!",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0re0-Speedwagon/Horus-Heresy-Statistics-Calculator-3rd-edition-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/0re0-Speedwagon/Horus-Heresy-Statistics-Calculator-3rd-edition-/issues"
+  },
+  "homepage": "https://github.com/0re0-Speedwagon/Horus-Heresy-Statistics-Calculator-3rd-edition-#readme",
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "vite": "^7.2.1"
+  }
+}
