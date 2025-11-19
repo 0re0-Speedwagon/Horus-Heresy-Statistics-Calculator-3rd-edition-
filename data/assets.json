@@ -1,0 +1,244 @@
+{
+  "catalogue": {
+    "sharedSelectionEntries": [
+      {
+        "profiles": [
+          {
+            "characteristics": [
+              {
+                "typeId": "3dcf-9034-fc2d-cd56",
+                "name": "Summary"
+              },
+              {
+                "typeId": "e965-60bc-cd79-63e7",
+                "name": "Setup"
+              },
+              {
+                "typeId": "bbd3-5482-ed3a-a3b3",
+                "name": "Effect"
+              }
+            ],
+            "name": "Forward Ammunition Drop",
+            "typeId": "7ae0-de68-04c6-8d8f",
+            "typeName": "Asset",
+            "hidden": false,
+            "id": "736d-8b12-034f-b741"
+          }
+        ],
+        "costs": [
+          {
+            "name": "Points",
+            "typeId": "9893-c379-920b-8982",
+            "value": 0
+          },
+          {
+            "name": "Asset Points",
+            "typeId": "57e3-1031-7d4d-5ae3",
+            "value": 2
+          },
+          {
+            "name": "Reaction Points",
+            "typeId": "c9ba-097e-c47f-ecc2",
+            "value": 0
+          }
+        ],
+        "categoryLinks": [
+          {
+            "targetId": "b720-ea51-7339-6a08",
+            "id": "745e-0fdf-0355-e9bb",
+            "primary": true,
+            "name": "Asset"
+          }
+        ],
+        "type": "upgrade",
+        "import": true,
+        "name": "Forward Ammunition Drop",
+        "hidden": false,
+        "id": "7c64-4927-263b-d803"
+      },
+      {
+        "profiles": [
+          {
+            "characteristics": [
+              {
+                "name": "Summary",
+                "typeId": "3dcf-9034-fc2d-cd56"
+              },
+              {
+                "name": "Setup",
+                "typeId": "e965-60bc-cd79-63e7"
+              },
+              {
+                "typeId": "bbd3-5482-ed3a-a3b3",
+                "name": "Effect"
+              }
+            ],
+            "name": "Strategic Cogitator Array",
+            "typeId": "7ae0-de68-04c6-8d8f",
+            "typeName": "Asset",
+            "hidden": false,
+            "id": "4e72-9a8e-c84e-3541"
+          }
+        ],
+        "costs": [
+          {
+            "name": "Point(s)",
+            "typeId": "9893-c379-920b-8982",
+            "value": 0
+          },
+          {
+            "name": "Asset Point(s)",
+            "typeId": "57e3-1031-7d4d-5ae3",
+            "value": 1
+          },
+          {
+            "name": "Reaction Point(s)",
+            "typeId": "c9ba-097e-c47f-ecc2",
+            "value": 0
+          }
+        ],
+        "categoryLinks": [
+          {
+            "targetId": "b720-ea51-7339-6a08",
+            "id": "a7db-34f7-04f7-6b74",
+            "primary": true,
+            "name": "Asset"
+          }
+        ],
+        "type": "upgrade",
+        "import": true,
+        "name": "Strategic Cogitator Array",
+        "hidden": false,
+        "id": "f397-7bc2-a0c5-b230"
+      },
+      {
+        "profiles": [
+          {
+            "characteristics": [
+              {
+                "$text": "Models close to a Graviton Snare risk becoming Pinned.",
+                "name": "Summary",
+                "typeId": "3dcf-9034-fc2d-cd56"
+              },
+              {
+                "$text": "Each Graviton Snare Marker must be set up by the Player that selected it at the end of the Prepare the Battlefield Step of the Mission Sequence.",
+                "name": "Setup",
+                "typeId": "e965-60bc-cd79-63e7"
+              },
+              {
+                "$text": "If a Unit is selected to move in the Movement Phase or make a Charge Move while any Models from that Unit are within 6\" of the centre of a Graviton Snare Marker, the Controlling Player of that Unit must roll one Dice for each Model from that Unit. On a 1, that Model triggers the snare and the Unit that includes that Model gains the Pinned Tactical Status. and that Graviton Snare Marker is removed from the Battlefield.",
+                "name": "Effect",
+                "typeId": "bbd3-5482-ed3a-a3b3"
+              }
+            ],
+            "name": "Graviton Snares",
+            "typeId": "7ae0-de68-04c6-8d8f",
+            "typeName": "Asset",
+            "hidden": false,
+            "id": "d099-232c-7c72-c88d"
+          }
+        ],
+        "costs": [
+          {
+            "name": "Point(s)",
+            "typeId": "9893-c379-920b-8982",
+            "value": 0
+          },
+          {
+            "name": "Asset Point(s)",
+            "typeId": "57e3-1031-7d4d-5ae3",
+            "value": 1
+          },
+          {
+            "name": "Reaction Point(s)",
+            "typeId": "c9ba-097e-c47f-ecc2",
+            "value": 0
+          }
+        ],
+        "categoryLinks": [
+          {
+            "targetId": "b720-ea51-7339-6a08",
+            "id": "3a50-b0e8-2623-7dbf",
+            "primary": true,
+            "name": "Asset"
+          }
+        ],
+        "type": "upgrade",
+        "import": true,
+        "name": "Graviton Snares",
+        "hidden": false,
+        "id": "add0-a31f-9c64-db1f"
+      },
+      {
+        "profiles": [
+          {
+            "characteristics": [
+              {
+                "$text": "Disruption Emitters apply a negative modifier to certain characteristics of nearby models.",
+                "name": "Summary",
+                "typeId": "3dcf-9034-fc2d-cd56"
+              },
+              {
+                "$text": "Each Disruption Emitter Marker must be set up by the Player that selected it at the start of the Deploy Armies Step. It must be set up with the centre of the Marker anywhere on the Battlefield that is not within their Opponent's deployment zone.",
+                "name": "Setup",
+                "typeId": "e965-60bc-cd79-63e7"
+              },
+              {
+                "$text": "While any Models from a Unit are within 6\" of the centre of a Disruption Emitter Marker, modify the Leadership, Cool, Intelligence, and Willpower Characteristics of all Models in that Unit by -1. At the end of each Battle Turn, the player that selected it rolls one Dice for each Disruption Emitter Marker they set up. On a 1, that Disruption Emitter Marker is removed from the Battlefield.",
+                "name": "Effect",
+                "typeId": "bbd3-5482-ed3a-a3b3"
+              }
+            ],
+            "name": "Disruption Emitter Charges",
+            "typeId": "7ae0-de68-04c6-8d8f",
+            "typeName": "Asset",
+            "hidden": false,
+            "id": "40a5-a5a5-8ab9-82c7"
+          }
+        ],
+        "costs": [
+          {
+            "name": "Point(s)",
+            "typeId": "9893-c379-920b-8982",
+            "value": 0
+          },
+          {
+            "name": "Asset Point(s)",
+            "typeId": "57e3-1031-7d4d-5ae3",
+            "value": 3
+          },
+          {
+            "name": "Reaction Point(s)",
+            "typeId": "c9ba-097e-c47f-ecc2",
+            "value": 0
+          }
+        ],
+        "categoryLinks": [
+          {
+            "targetId": "b720-ea51-7339-6a08",
+            "id": "94ce-eea3-c5de-0495",
+            "primary": true,
+            "name": "Asset"
+          }
+        ],
+        "type": "upgrade",
+        "import": true,
+        "name": "Disruption Emitter Charges",
+        "hidden": false,
+        "id": "e62d-6141-61c3-beee"
+      }
+    ],
+    "xmlns": "http://www.battlescribe.net/schema/catalogueSchema",
+    "library": true,
+    "id": "5334-5605-242c-d75e",
+    "name": "Assets",
+    "gameSystemId": "sys-9fe4-1dc3-b7c2-73cf",
+    "gameSystemRevision": 1,
+    "revision": 1,
+    "authorName": "The4D6",
+    "battleScribeVersion": 2.03,
+    "type": "catalogue",
+    "authorContact": "https://github.com/BSData/horus-heresy-3rd-edition/issues",
+    "authorUrl": "https://github.com/BSData/horus-heresy-3rd-edition/"
+  }
+}

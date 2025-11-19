@@ -1,1 +1,3 @@
-BSData/
+BSData
+node_modules
+.DS_Store
