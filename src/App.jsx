@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import './style.css';
 import Models from './index.jsx';
 import { Button, Select, Space } from 'antd';
@@ -110,10 +110,10 @@ export default function App() {
     ];
     const data = [];
     //army preferences
-    const a_army = useState()
-    const a_unit = "Iron Circle Maniple"
-    const d_army = "ImperialFists"
-    const d_unit = "Phalanx Warders"
+    const [a_army, seta_army] = useState([])
+    const [a_unit, seta_unit] = useState([])
+    const [d_army, setd_army] = useState([])
+    const [d_unit, setd_unit] = useState([])
     //========================RETURN========================
     return (
       <Flex gap="middle" wrap>
@@ -128,7 +128,8 @@ export default function App() {
             <p>1: Select armies for attacker and defender</p>
             <p>2: Select units for attacker and defender</p>
             <p>3: Select additional modifiers</p>
-            <p>4: Click generate</p>
+            <p>4: Select attack type</p>
+            <p>5: Click generate</p>
           </Sider>
 
           <Content style={contentStyle}>
@@ -139,7 +140,7 @@ export default function App() {
               <Select
                 defaultValue="Attacking Army"
                 style={{ width: 200 }}
-                onChange={handleChange}
+                onChange={(e) => seta_army(e.value)}
                 options={[
                   { value: "DarkAngels", label: 'I Dark Angels' },
                   { value: "EmperorsChildren", label: 'III Emperor\'s Children' },
@@ -167,9 +168,9 @@ export default function App() {
               <Select
                 defaultValue="Defending Army"
                 style={{ width: 200 }}
-                onChange={handleChange}
+                onChange={(e) => setd_army(e.value)}
                 options={[
-                                    { value: "DarkAngels", label: 'I Dark Angels' },
+                  { value: "DarkAngels", label: 'I Dark Angels' },
                   { value: "EmperorsChildren", label: 'III Emperor\'s Children' },
                   { value: "IronWarriors", label: 'IV Iron Warriors' },
                   { value: "WhiteScars", label: 'V White Scars'},
@@ -198,7 +199,7 @@ export default function App() {
               <Select
                 defaultValue="Attacking Unit"
                 style={{ width: 200 }}
-                onChange={handleChange}
+                onChange={(e) => seta_unit(e.value)}
                 options={[
                   { value: 'jack', label: 'Jack' },
                   { value: 'lucy', label: 'Lucy' },
@@ -209,7 +210,7 @@ export default function App() {
               <Select
                 defaultValue="Defending Unit"
                 style={{ width: 200 }}
-                onChange={handleChange}
+                onChange={(e) => setd_unit(e.value)}
                 options={[
                   { value: 'jack', label: 'Jack' },
                   { value: 'lucy', label: 'Lucy' },
@@ -256,6 +257,19 @@ export default function App() {
                 <Checkbox onChange={onChange}>Supressed</Checkbox>
                 <Checkbox onChange={onChange}>Routed</Checkbox>
               </Space>
+              <Space>
+                <Select
+                defaultValue = "Attack Type"
+                style={{ width: 200 }}
+                onChange={handleChange}
+                options={[
+                  { value: 'Shooting', label: 'Shooting' },
+                  { value: 'Fighting', label: 'Fighting' },
+                  { value: 'Gambit', label: 'Gambit', disabled: true}
+                ]}
+              />
+              </Space>
+              
               <Space direction = "horizontal">
                 <Button type="primary"><b>Generate</b></Button>
               <Button type="primary" danger><b>Reset</b></Button>
