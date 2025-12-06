@@ -3,7 +3,7 @@ import { defineConfig } from "vite";
 // https://vitejs.dev/config/
 export default defineConfig({
     server: {
-        host: "0.0.0.0", // Allow external connections
+        host: true, // Allow external connections
         port: 5173,
         strictPort: true, // Fail if port is already in use
         watch: {

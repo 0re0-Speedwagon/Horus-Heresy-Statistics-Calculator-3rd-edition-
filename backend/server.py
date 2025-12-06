@@ -19,8 +19,12 @@ from sqlalchemy.ext.asyncio import (
 from sqlalchemy.future import select
 from sqlalchemy.orm import sessionmaker
 
-
-
+#====================
+#Application Object
+#====================
+app = FastAPI(
+    title="Calculator API", description="A simple CRUD API for managing the calculator"
+)
 
 #====================
 #CORS Middleware
