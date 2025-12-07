@@ -181,6 +181,8 @@ def calculate(ainput: AttackInput, dinput: DefendInput):
         else:
             i += 1
             ukilled +=1
+    
+    return damage
 
 
 static_dir = os.path.join(os.path.dirname(__file__), "..", "static")

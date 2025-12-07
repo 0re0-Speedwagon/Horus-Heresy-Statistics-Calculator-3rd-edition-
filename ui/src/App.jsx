@@ -12,9 +12,18 @@ import { Flex,
          Space,
          Form,} from 'antd';
 import {FullscreenExitOutlined} from '@ant-design/icons';
+import AttackerInput from "./Attacker";
+import DefenderInput from "./Defender";
 const { Header, Footer, Sider, Content } = Layout;
 
 export default function App() {
+
+  //API URL
+  const API_URL =
+    import.meta.env.VITE_API_URL !== undefined
+        ? import.meta.env.VITE_API_URL // address for production architecture
+        : 'http://localhost:8000'; // address for local architecture
+
   //Change variables
     const handleChange = value => {
       console.log(`selected ${value}`);
@@ -75,17 +84,13 @@ export default function App() {
       overflow: 'hidden',
     };
 
-  const onFinish = values => {
-    console.log(values);
-  };
+  function refreshAttacker() {
+        setRefreshTrigger((prev) => prev + 1);
+    }
 
-  const onReset = () => {
-    form.resetFields();
-  };
-
-  const onFill = () => {
-    form.setFieldsValue({ note: 'Hello world!', gender: 'male' });
-  };
+  function refreshDefender() {
+        setRefreshTrigger((prev) => prev + 1);
+    }
 
   //Card Styling
   const cStyle = {
@@ -132,136 +137,18 @@ export default function App() {
           <Content style={contentStyle}>
             <Card title = "Attacking Unit"
                   style={ cStyle }>
-
-              <Form name="attacker"
-                  onFinish={onFinish}
-                  style={{ maxWidth: 600,}}
-                  layout="inline"
-                  wrap="flex">
-                    <Form.Item name="amodels" 
-                               label="Models:"
-                               rules={[{ required: true }]}
-                               layout="vertical"
-                               style={ inStyle }>
-                      <InputNumber stringMode={false}
-                                   min={1}
-                                   step={1}/>
-                    </Form.Item>
-                    <Form.Item name="attacks" 
-                               label="Attacks:"
-                               rules={[{ required: true }]}
-                               layout="vertical"
-                               style={ inStyle }>
-                      <InputNumber stringMode={false}
-                                   min={1}
-                                   step={1}/>
-                    </Form.Item>
-                    <Form.Item name="skill" 
-                               label="BS/WS:"
-                               rules={[{ required: true }]}
-                               layout="vertical"
-                               style={ inStyle }>
-                      <InputNumber stringMode={false}
-                                   min={2}
-                                   step={1}/>
-                    </Form.Item>
-                    <Form.Item name="S" 
-                               label="Strength:"
-                               rules={[{ required: true }]}
-                               layout="vertical"
-                               style={ inStyle }>
-                      <InputNumber stringMode={false}
-                                   min={1}
-                                   step={1}/>
-                    </Form.Item>
-                    <Form.Item name="AP" 
-                               label="AP:"
-                               rules={[{ required: true }]}
-                               layout="vertical"
-                               style={ inStyle }>
-                      <InputNumber stringMode={false}
-                                   min={1}
-                                   step={1}/>
-                    </Form.Item><Form.Item name="d" 
-                               label="Damage:"
-                               rules={[{ required: true }]}
-                               layout="vertical"
-                               style={ inStyle }>
-                      <InputNumber stringMode={false}
-                                   min={1}
-                                   step={1}/>
-                    </Form.Item>
-                    <Form.Item name="snap" 
-                               valuePropName="checked"
-                               label= "Firing Snapshots:"
-                               style={{ width: 120 }}>
-                      <Checkbox style={{ size: "large"}}></Checkbox>
-                    </Form.Item>
-              </Form>
+              <AttackerInput
+                  API_URL={API_URL}
+                  onAttackerSet={refreshAttacker}
+              />{' '}
             </Card>
 
             <Card title = "Defending Unit"
                   style={ cStyle }>
-                    <Form name="defender"
-                  onFinish={onFinish}
-                  style={{ maxWidth: 600,}}
-                  layout="inline"
-                  wrap="flex">
-                    <Form.Item name="dmodels" 
-                               label="Models:"
-                               rules={[{ required: true }]}
-                               layout="vertical"
-                               style={ inStyle }>
-                      <InputNumber stringMode={false}
-                                   min={1}
-                                   step={1}/>
-                    </Form.Item>
-                    <Form.Item name="T" 
-                               label="Toughness:"
-                               rules={[{ required: true }]}
-                               layout="vertical"
-                               style={ inStyle }>
-                      <InputNumber stringMode={false}
-                                   min={1}
-                                   step={1}/>
-                    </Form.Item>
-                    <Form.Item name="W" 
-                               label="Wounds:"
-                               rules={[{ required: true }]}
-                               layout="vertical"
-                               style={ inStyle }>
-                      <InputNumber stringMode={false}
-                                   min={1}
-                                   step={1}/>
-                    </Form.Item>
-                    <Form.Item name="sav" 
-                               label="Save:"
-                               rules={[{ required: true }]}
-                               layout="vertical"
-                               style={ inStyle }>
-                      <InputNumber stringMode={false}
-                                   min={1}
-                                   step={1}/>
-                    </Form.Item>
-                    <Form.Item name="inv" 
-                               label="Invulnerable:"
-                               rules={[{ required: false }]}
-                               layout="vertical"
-                               style={ inStyle }>
-                      <InputNumber stringMode={false}
-                                   min={1}
-                                   step={1}/>
-                    </Form.Item>
-                    <Form.Item name="fnp" 
-                               label="Feel no pain:"
-                               rules={[{ required: false }]}
-                               layout="vertical"
-                               style={ inStyle }>
-                      <InputNumber stringMode={false}
-                                   min={1}
-                                   step={1}/>
-                    </Form.Item>
-              </Form>
+                <DefenderInput
+                  API_URL={API_URL}
+                  onDefenderSet={refreshDefender}
+              />{' '}
             </Card>
             
           </Content>
