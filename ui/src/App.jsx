@@ -89,7 +89,7 @@ export default function App() {
 
   //Card Styling
   const cStyle = {
-    width: '33%  ',
+    width: ' 50% ',
     background: 'transparent',
     border: '3px solid black',
     justifyContent: 'center',
@@ -191,24 +191,16 @@ export default function App() {
                                    min={1}
                                    step={1}/>
                     </Form.Item>
+                    <Form.Item name="snap" 
+                               valuePropName="checked"
+                               label= "Firing Snapshots:"
+                               style={{ width: 120 }}>
+                      <Checkbox style={{ size: "large"}}></Checkbox>
+                    </Form.Item>
               </Form>
             </Card>
-            <Card title = "Hitting"
-                  style={ cStyle }>
-              <Form>
 
-              </Form>
-            </Card>
-            <Card title = "Wounding"
-                  style={ cStyle }>
-              <Form>
-
-              </Form>
-            </Card>
-          </Content>
-            </Layout>
-              <Footer style={footerStyle}>
-                <Card title = "Defending Unit"
+            <Card title = "Defending Unit"
                   style={ cStyle }>
                     <Form name="defender"
                   onFinish={onFinish}
@@ -271,11 +263,16 @@ export default function App() {
                     </Form.Item>
               </Form>
             </Card>
+            
+          </Content>
+            </Layout>
+              <Footer style={footerStyle}>
             <Button type="primary" 
                     htmlType="submit"
                     style={bStyle}>Generate</Button>
                 </Footer>
               <Footer style={footerStyle}>
+                <b>Graphing data goes here!</b>
                 </Footer>
             </Layout>
         </Flex>

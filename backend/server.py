@@ -42,7 +42,7 @@ class AttackInput(BaseModel):
     snap: bool
 
 # Defending unit
-class DefendInput:
+class DefendInput(BaseModel):
     dmodels: int
     T: int
     W: int
@@ -120,6 +120,9 @@ app.add_middleware(
 
 @app.post("/calculate")
 def calculate(ainput: AttackInput, dinput: DefendInput):
+    #Make it so that this runs 20 times then outputs to graphs
+
+
     dmodels = [dinput.W for _ in dinput.dmodels]            #array of defending models and their wounds
     tattacks = ainput.models * ainput.attacks               #total attacks
     ccount = 0
