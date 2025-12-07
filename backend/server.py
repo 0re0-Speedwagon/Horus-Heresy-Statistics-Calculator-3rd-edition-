@@ -1,4 +1,4 @@
-import os
+import os, random
 from datetime import datetime
 from typing import List, Optional
 
@@ -20,14 +20,91 @@ from sqlalchemy.future import select
 from sqlalchemy.orm import sessionmaker
 
 #====================
-#Application Object
+# Application Object
 #====================
 app = FastAPI(
     title="Calculator API", description="A simple CRUD API for managing the calculator"
 )
 
 #====================
-#CORS Middleware
+# Unit Objects
+#====================
+
+# Attacking unit
+class AttackInput(BaseModel):
+    amodels: int
+    attacks: int
+    skill: int  # e.g., 3 for 3+
+    S: int
+    AP: int
+    D: int
+    crit: Optional[int] = 7
+    snap: bool
+
+# Defending unit
+class DefendInput:
+    dmodels: int
+    T: int
+    W: int
+    sav: int
+    inv: Optional[int] = 7
+    fnp: Optional[int] = 7
+    vehicle: bool
+
+
+# Balistic skill converter
+def bws(attacker: AttackInput):
+    if attacker.snap == False:
+        if attacker.skill < 6:
+            toHit = 6 - (attacker.skill - 1)
+        elif attacker.skill < 10:
+            tohit = 2
+            attacker.crit = 12 - attacker.skill
+        else:
+            tohit = 1
+    else:
+        if attacker.skill == 2 | attacker.skill == 3:
+            tohit = 6
+        elif attacker.skill == 4 | attacker.skill == 5:
+            tohit = 5
+        elif attacker.skill == 6 | attacker.skill == 7 | attacker.skill == 8:
+            tohit = 4
+        elif attacker.skill == 9:
+            tohit = 3
+        else:
+            tohit = 2
+    return tohit
+
+# Wound Calculator
+def wounding(attacker: AttackInput, defender: DefendInput):
+    # For Infantry
+    if defender.vehicle == False:
+        if attacker.S < defender.T - 3:         #impossible of 4 or less
+            return 7
+        if attacker.S < defender.T - 1:         #6+ for 2 or 3 less
+            return 6
+        elif attacker.S == defender.T - 1:      #5+ for 1 less
+            return 3
+        elif attacker.S == defender.T:          #4+ for equal
+            return 4
+        elif attacker.S == defender.T + 1:      #3+ for 1 higher
+            return 3
+        elif attacker.S > defender.T + 1:       #2+ for 2 or more diff
+            return 2
+    # For Vehicles
+    else:
+        topen = defender.T - attacker.S + 1   #to penetrate
+        return topen
+
+def saving(attacker: AttackInput, defender: DefendInput):
+    if attacker.AP > defender.sav:                          #check ap
+        save = defender.sav                                 #set save to defenders save
+    else:
+        save = defender.inv                                 #set to invulneralbe save (Default 7)
+    return save
+
+#====================
+# CORS Middleware
 #====================
 app.add_middleware(
     CORSMiddleware,
@@ -36,6 +113,81 @@ app.add_middleware(
     allow_methods=["*"],  # Allows all HTTP methods (GET, POST, etc.)
     allow_headers=["*"],  # Allows all headers
 )
+
+#====================
+# Calculator Endpoint
+#====================
+
+@app.post("/calculate")
+def calculate(ainput: AttackInput, dinput: DefendInput):
+    dmodels = [dinput.W for _ in dinput.dmodels]            #array of defending models and their wounds
+    tattacks = ainput.models * ainput.attacks               #total attacks
+    ccount = 0
+    
+    # Hitting
+    hit = [random.randint(1, 6) for _ in tattacks]      #rolls totall attacks and places them into an array
+    hcount = 0
+
+    for num in hit:                                     #how many rolls in hit were successful
+        if num > bws(ainput):
+            if num >= ainput.crit:
+                ccount += 1             #if crit skip wounds
+            else:
+                hcount += 1             #if regular add to wounds
+
+    # Wounding
+    wound = [random.randint(1, 6) for _ in range(hcount)]   #rolls total wounds and places them into an array
+    wcount = 0                                               #set wound count
+
+    for num in wound:                                       #how many rolls in wound were successful
+        if num > wounding(ainput, dinput):
+            wcount += 1
+
+    # Saves
+    regsave = [random.randint(1, 6) for _ in range(wcount)]     #rolls total saves and places them into an array
+    critsave = [random.randint(1, 6) for _ in range(ccount)]    #rolls crit saves and places them into an array
+    scount = 0                                                  #set save count
+    cscount = 0                                                 #set crit save count
+
+    for num in regsave:                                       #how many regular rolls in save were unsuccessful
+        if num < saving(ainput, dinput):
+            scount += 1
+
+    for num in critsave:                                       #how many crit rolls in save were unsuccessful
+        if num < saving(ainput, dinput):
+            cscount += 1
+    
+    damage = (scount * ainput.D) + (cscount * ainput.D + 1)
+    moddamage = damage                                          #second damage varaible for modifying
+    # Feel No Pain
+    if dinput.fnp < 7:         #if a fnp actually exists
+        fnp = [random.randint(1, 6) for _ in range(damage)]     #rolls feel no pains and places them into an array
+        fnpcount = 0
+
+        for num in fnp:                                               #how many regular rolls in fnp were unsuccessful
+            if num < dinput.fnp:
+                fnpcount += 1
+
+    # Damage Allocation
+    i = 0
+    ukilled = 0
+    while moddamage >= 0:
+        if dmodels[i] > 0:
+            dmodels[i] -= 1
+            moddamage -= 1
+        else:
+            i += 1
+            ukilled +=1
+
+
+static_dir = os.path.join(os.path.dirname(__file__), "..", "static")
+if os.path.exists(static_dir):
+    # Mount static files (CSS, JS, images, etc.)
+    app.mount(
+        "/assets",
+        StaticFiles(directory=os.path.join(static_dir, "assets")),
+        name="assets",
+    )
 
 
 static_dir = os.path.join(os.path.dirname(__file__), "..", "static")
