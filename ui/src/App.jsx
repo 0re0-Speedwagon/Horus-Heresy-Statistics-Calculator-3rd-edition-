@@ -12,6 +12,7 @@ import { Flex,
          Space,
          Form,} from 'antd';
 import {FullscreenExitOutlined} from '@ant-design/icons';
+import '@ant-design/v5-patch-for-react-19';
 import AttackerInput from "./Attacker";
 import DefenderInput from "./Defender";
 const { Header, Footer, Sider, Content } = Layout;

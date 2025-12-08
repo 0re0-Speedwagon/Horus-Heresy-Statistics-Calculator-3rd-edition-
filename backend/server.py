@@ -4,7 +4,6 @@ from typing import List, Optional
 
 from dotenv import load_dotenv
 from fastapi import (
-    Depends,
     FastAPI,
     HTTPException,
 )
@@ -33,24 +32,24 @@ app = FastAPI(
 
 # Attacking unit
 class AttackInput(BaseModel):
-    amodels: int
-    attacks: int
-    skill: int  # e.g., 3 for 3+
-    S: int
-    AP: int
-    D: int
+    amodels: int = 0
+    attacks: int = 0
+    skill: int = 0  # e.g., 3 for 3+
+    S: int = 0
+    AP: int = 0
+    D: int = 0
     crit: Optional[int] = 7
-    snap: bool
+    snap: bool = False
 
 # Defending unit
 class DefendInput(BaseModel):
-    dmodels: int
-    T: int
-    W: int
-    sav: int
+    dmodels: int = 0
+    T: int = 0
+    W: int = 0
+    sav: int = 0
     inv: Optional[int] = 7
     fnp: Optional[int] = 7
-    vehicle: bool
+    vehicle: bool = False
 
 class Calculations(BaseModel):
     hcount: Optional[int] = 0
@@ -133,22 +132,11 @@ def saving(attacker: AttackInput, defender: DefendInput):
     return save
 
 #====================
-# CORS Middleware
-#====================
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins (in production, specify exact URLs)
-    allow_credentials=True,
-    allow_methods=["*"],  # Allows all HTTP methods (GET, POST, etc.)
-    allow_headers=["*"],  # Allows all headers
-)
-
-#====================
 # Calculator Endpoint
 #====================
 
 @app.post("/calculate")
-def calculate(request: CalcRequest):
+async def calculate(request: CalcRequest):
     #Make it so that this runs 20 times then outputs to graphs
 
     ainput = request.offInput
@@ -210,6 +198,16 @@ def calculate(request: CalcRequest):
     
     return JSONResponse(content=calc.to_dict())
 
+#====================a
+# CORS Middleware
+#====================
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins (in production, specify exact URLs)
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all HTTP methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allows all headers
+)
 
 static_dir = os.path.join(os.path.dirname(__file__), "..", "static")
 if os.path.exists(static_dir):
