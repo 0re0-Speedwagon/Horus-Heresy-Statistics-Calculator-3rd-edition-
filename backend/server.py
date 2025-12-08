@@ -135,6 +135,7 @@ def saving(attacker: AttackInput, defender: DefendInput):
 # Calculator Endpoint
 #====================
 
+# CREATE: Run Calculator
 @app.post("/calculate")
 async def calculate(request: CalcRequest):
     #Make it so that this runs 20 times then outputs to graphs
