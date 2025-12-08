@@ -22,12 +22,19 @@ const [offInput, setOffInput] = useState({});
 const [defInput, setDefInput] = useState({});
 const [result, setResult] = useState(null);
 
+  //API URL
+  const API_URL =
+    import.meta.env.VITE_API_URL !== undefined
+        ? import.meta.env.VITE_API_URL // address for production architecture
+        : 'http://localhost:8000'; // address for local architecture
+
   async function handleSubmit(e) {
+      console.log(API_URL)
       e.preventDefault();
       const response = await fetch(`${API_URL}/calculate`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify([ offInput, defInput ]),
+          body: JSON.stringify({ offInput, defInput }),
       });
       if (!response.ok) {
         throw new Error(`HTTP error ${response.status}`);
@@ -35,14 +42,7 @@ const [result, setResult] = useState(null);
       const data = await response.json();  //Parse response
       console.log('Success:', data);
       setResult(data);                     //Save it to state
-    };
-
-
-  //API URL
-  const API_URL =
-    import.meta.env.VITE_API_URL !== undefined
-        ? import.meta.env.VITE_API_URL // address for production architecture
-        : 'http://localhost:8000'; // address for local architecture
+  };
 
   //Change variables
     useEffect(() => {

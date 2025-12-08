@@ -12,7 +12,7 @@ export default function AttackerInput({ onFinish }) {
     const [snap, setSnap] = useState(false);
 
     const inStyle = {
-      width: 100
+      width: 125
     };
 
     return (
@@ -31,7 +31,7 @@ export default function AttackerInput({ onFinish }) {
                              step={1}/>
               </Form.Item>
               <Form.Item name = "attacks"
-                         label="Attacks:"
+                         label="Attacks/Model:"
                          rules={[{ required: true }]}
                          layout="vertical"
                          style={ inStyle }>

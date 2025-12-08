@@ -10,6 +10,7 @@ from fastapi import (
 )
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import (
@@ -60,6 +61,24 @@ class Calculations(BaseModel):
     fnpcount: Optional[int] = 0
     damage: Optional[int] = 0
     ukilled: Optional[int] = 0
+
+    def to_dict(self):
+        return{
+            "hcount": self.hcount,
+            "ccount": self.ccount,
+            "wcount": self.wcount,
+            "scount": self.scount,
+            "cscount": self.cscount,
+            "fnpcount": self.fnpcount,
+            "damage": self.damage,
+            "ukilled": self.ukilled,
+        }
+            
+
+
+class CalcRequest(BaseModel):
+    offInput: AttackInput
+    defInput: DefendInput
 
 
 # Balistic skill converter
@@ -129,10 +148,11 @@ app.add_middleware(
 #====================
 
 @app.post("/calculate")
-def calculate(request):
+def calculate(request: CalcRequest):
     #Make it so that this runs 20 times then outputs to graphs
-    ainput = AttackInput(request[0])
-    dinput = DefendInput(request[1])
+
+    ainput = request.offInput
+    dinput = request.defInput
     calc = Calculations()
 
     dmodels = [dinput.W for _ in dinput.dmodels]            #array of defending models and their wounds
@@ -188,17 +208,7 @@ def calculate(request):
             i += 1
             calc.ukilled +=1
     
-    return calc
-
-
-static_dir = os.path.join(os.path.dirname(__file__), "..", "static")
-if os.path.exists(static_dir):
-    # Mount static files (CSS, JS, images, etc.)
-    app.mount(
-        "/assets",
-        StaticFiles(directory=os.path.join(static_dir, "assets")),
-        name="assets",
-    )
+    return JSONResponse(content=calc.to_dict())
 
 
 static_dir = os.path.join(os.path.dirname(__file__), "..", "static")

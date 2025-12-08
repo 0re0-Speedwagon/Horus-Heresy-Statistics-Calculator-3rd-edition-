@@ -11,7 +11,7 @@ export default function DefenderInput({ onFinish }) {
     const [vehicle, setVehicle] = useState(false);
 
     const inStyle = {
-      width: 100
+      width: 125
   };
 
     return (
