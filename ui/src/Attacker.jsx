@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form, Input, InputNumber, Checkbox } from 'antd';
 
-export default function AttackerInput({ API_URL, onAttackerSet }) {
+export default function AttackerInput({ onFinish }) {
     const [amodels, setAmodels] = useState(0);
     const [attacks, setAttacks] = useState(0);
     const [skill, setSkill] = useState(0);
@@ -11,106 +11,78 @@ export default function AttackerInput({ API_URL, onAttackerSet }) {
     const [crit, setCrit] = useState(0);
     const [snap, setSnap] = useState(false);
 
-
-    async function handleSubmit(e) {
-        e.preventDefault();
-
-        const response = await fetch(`${API_URL}/calculate`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ amodels, attacks, skill, S, AP, D, crit, snap }),
-        });
-
-        if (response.ok) {
-            setAmodels(0);
-            setAttacks(0);
-            setSkill(0);
-            setS(0);
-            setAP(0);
-            setD(0);
-            setCrit(0);
-            setSnap(false);
-            onAttackerSet();
-        }
-    }
-
     const inStyle = {
       width: 100
-  };
+    };
 
     return (
         <Form name="attacker"
             style={{ maxWidth: 600,}}
+            onFinish={onFinish}
             layout="inline"
             wrap="flex">
-              <Form.Item label="Models:"
+              <Form.Item name = "amodels"
+                         label="Models:"
                          rules={[{ required: true }]}
                          layout="vertical"
-                         value={amodels}
-                         onChange={(e) => setAmodels(e.target.value)}
                          style={ inStyle }>
                 <InputNumber stringMode={false}
                              min={1}
                              step={1}/>
               </Form.Item>
-              <Form.Item label="Attacks:"
+              <Form.Item name = "attacks"
+                         label="Attacks:"
                          rules={[{ required: true }]}
                          layout="vertical"
-                         value={attacks}
-                         onChange={(e) => setAttacks(e.target.value)}
                          style={ inStyle }>
                 <InputNumber stringMode={false}
                              min={1}
                              step={1}/>
               </Form.Item>
-              <Form.Item label="BS/WS:"
+              <Form.Item name = "skill"
+                         label="BS/WS:"
                          rules={[{ required: true }]}
                          layout="vertical"
-                         value={skill}
-                         onChange={(e) => setSkill(e.target.value)}
                          style={ inStyle }>
                 <InputNumber stringMode={false}
                              min={2}
                              step={1}/>
               </Form.Item>
-              <Form.Item label="Strength:"
+              <Form.Item name = "S"
+                         label="Strength:"
                          rules={[{ required: true }]}
                          layout="vertical"
-                         value={S}
-                         onChange={(e) => setS(e.target.value)}
                          style={ inStyle }>
                 <InputNumber stringMode={false}
                              min={1}
                              step={1}/>
               </Form.Item>
-              <Form.Item label="AP:"
+              <Form.Item name = "AP"
+                         label="AP:"
                          rules={[{ required: true }]}
                          layout="vertical"
-                         value={AP}
-                         onChange={(e) => setAP(e.target.value)}
                          style={ inStyle }>
                 <InputNumber stringMode={false}
                              min={1}
                              step={1}/>
               </Form.Item>
-              <Form.Item label="Damage:"
+              <Form.Item name = "D"
+                         label="Damage:"
                          rules={[{ required: true }]}
                          layout="vertical"
-                         value={D}
-                         onChange={(e) => setD(e.target.value)}
                          style={ inStyle }>
                 <InputNumber stringMode={false}
                              min={1}
                              step={1}/>
               </Form.Item>
-              <Form.Item valuePropName="checked"
+              <Form.Item name = "snap"
+                         valuePropName="checked"
+                         initialValue={false}
                          label= "Firing Snapshots:"
-                         value={snap}
-                         onChange={(e) => setSnap(e.target.value)}
                          style={{ width: 120 }}>
                 <Checkbox style={{ size: "large"}}></Checkbox>
               </Form.Item>
-              <Button type="submit" onClick={handleSubmit}>
+              <Button type="primary" htmlType="submit">
                 Set Attacker
             </Button>
         </Form>

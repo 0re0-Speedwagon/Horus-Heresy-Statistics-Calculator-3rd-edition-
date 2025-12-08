@@ -51,6 +51,16 @@ class DefendInput(BaseModel):
     fnp: Optional[int] = 7
     vehicle: bool
 
+class Calculations(BaseModel):
+    hcount: Optional[int] = 0
+    ccount: Optional[int] = 0
+    wcount: Optional[int] = 0
+    scount: Optional[int] = 0
+    cscount: Optional[int] = 0
+    fnpcount: Optional[int] = 0
+    damage: Optional[int] = 0
+    ukilled: Optional[int] = 0
+
 
 # Balistic skill converter
 def bws(attacker: AttackInput):
@@ -119,70 +129,66 @@ app.add_middleware(
 #====================
 
 @app.post("/calculate")
-def calculate(ainput: AttackInput, dinput: DefendInput):
+def calculate(request):
     #Make it so that this runs 20 times then outputs to graphs
-
+    ainput = AttackInput(request[0])
+    dinput = DefendInput(request[1])
+    calc = Calculations()
 
     dmodels = [dinput.W for _ in dinput.dmodels]            #array of defending models and their wounds
     tattacks = ainput.models * ainput.attacks               #total attacks
-    ccount = 0
     
     # Hitting
     hit = [random.randint(1, 6) for _ in tattacks]      #rolls totall attacks and places them into an array
-    hcount = 0
 
     for num in hit:                                     #how many rolls in hit were successful
         if num > bws(ainput):
             if num >= ainput.crit:
-                ccount += 1             #if crit skip wounds
+                calc.ccount += 1             #if crit skip wounds
             else:
-                hcount += 1             #if regular add to wounds
+                calc.hcount += 1             #if regular add to wounds
 
     # Wounding
-    wound = [random.randint(1, 6) for _ in range(hcount)]   #rolls total wounds and places them into an array
-    wcount = 0                                               #set wound count
+    wound = [random.randint(1, 6) for _ in range(calc.hcount)]   #rolls total wounds and places them into an array
 
     for num in wound:                                       #how many rolls in wound were successful
         if num > wounding(ainput, dinput):
-            wcount += 1
+            calc.wcount += 1
 
     # Saves
-    regsave = [random.randint(1, 6) for _ in range(wcount)]     #rolls total saves and places them into an array
-    critsave = [random.randint(1, 6) for _ in range(ccount)]    #rolls crit saves and places them into an array
-    scount = 0                                                  #set save count
-    cscount = 0                                                 #set crit save count
+    regsave = [random.randint(1, 6) for _ in range(calc.wcount)]     #rolls total saves and places them into an array
+    critsave = [random.randint(1, 6) for _ in range(calc.ccount)]    #rolls crit saves and places them into an array
 
     for num in regsave:                                       #how many regular rolls in save were unsuccessful
         if num < saving(ainput, dinput):
-            scount += 1
+            calc.scount += 1
 
     for num in critsave:                                       #how many crit rolls in save were unsuccessful
         if num < saving(ainput, dinput):
-            cscount += 1
+            calc.cscount += 1
     
-    damage = (scount * ainput.D) + (cscount * ainput.D + 1)
-    moddamage = damage                                          #second damage varaible for modifying
+    calc.damage = (calc.scount * ainput.D) + (calc.cscount * ainput.D + 1)
+    moddamage = calc.damage                                          #second damage varaible for modifying
     # Feel No Pain
     if dinput.fnp < 7:         #if a fnp actually exists
-        fnp = [random.randint(1, 6) for _ in range(damage)]     #rolls feel no pains and places them into an array
-        fnpcount = 0
+        fnp = [random.randint(1, 6) for _ in range(calc.damage)]     #rolls feel no pains and places them into an array
 
         for num in fnp:                                               #how many regular rolls in fnp were unsuccessful
             if num < dinput.fnp:
-                fnpcount += 1
+                calc.fnpcount += 1
 
     # Damage Allocation
     i = 0
-    ukilled = 0
+    calc.ukilled = 0
     while moddamage >= 0:
         if dmodels[i] > 0:
             dmodels[i] -= 1
             moddamage -= 1
         else:
             i += 1
-            ukilled +=1
+            calc.ukilled +=1
     
-    return damage
+    return calc
 
 
 static_dir = os.path.join(os.path.dirname(__file__), "..", "static")

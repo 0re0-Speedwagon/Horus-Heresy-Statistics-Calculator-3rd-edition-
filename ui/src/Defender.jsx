@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form, Input, InputNumber, Checkbox } from 'antd';
 
-export default function DefenderInput({ API_URL, onDefenderSet }) {
+export default function DefenderInput({ onFinish }) {
     const [dmodels, setDmodels] = useState(0);
     const [T, setT] = useState(0);
     const [W, setW] = useState(0);
@@ -10,28 +10,6 @@ export default function DefenderInput({ API_URL, onDefenderSet }) {
     const [fnp, setFnp] = useState(0);
     const [vehicle, setVehicle] = useState(false);
 
-
-    async function handleSubmit(e) {
-        e.preventDefault();
-
-        const response = await fetch(`${API_URL}/calculate`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ dmodels, T, W, sav, inv, fnp, vehicle }),
-        });
-
-        if (response.ok) {
-            setDmodels(0);
-            setT(0);
-            setW(0);
-            setSav(0);
-            setInv(0);
-            setFnp(0);
-            setVehicle(false);
-            onDefenderSet();
-        }
-    }
-
     const inStyle = {
       width: 100
   };
@@ -39,76 +17,74 @@ export default function DefenderInput({ API_URL, onDefenderSet }) {
     return (
         <Form name="defender"
               style={{ maxWidth: 600,}}
+              onFinish={onFinish}
               layout="inline"
               wrap="flex">
-            <Form.Item label="Models:"
+            <Form.Item name="dmodels"
+                       label="Models:"
                        rules={[{ required: true }]}
                        layout="vertical"
-                       value={dmodels}
-                       onChange={(e) => setDmodels(e.target.value)}
                        style={ inStyle }>
               <InputNumber stringMode={false}
                            min={1}
                            step={1}/>
             </Form.Item>
-            <Form.Item label="Toughness:"
+            <Form.Item name="T"
+                       label="Toughness:"
                        rules={[{ required: true }]}
                        layout="vertical"
-                       value={T}
-                       onChange={(e) => setT(e.target.value)}
                        style={ inStyle }>
               <InputNumber stringMode={false}
                            min={1}
                            step={1}/>
             </Form.Item>
-            <Form.Item label="Wounds:"
+            <Form.Item name="W"
+                       label="Wounds:"
                        rules={[{ required: true }]}
                        layout="vertical"
-                       value={W}
-                       onChange={(e) => setW(e.target.value)}
                        style={ inStyle }>
               <InputNumber stringMode={false}
                            min={1}
                            step={1}/>
             </Form.Item>
-            <Form.Item label="Save:"
+            <Form.Item name="sav"
+                       label="Save:"
                        rules={[{ required: true }]}
                        layout="vertical"
-                       value={sav}
-                       onChange={(e) => setSav(e.target.value)}
                        style={ inStyle }>
               <InputNumber stringMode={false}
                            min={1}
                            step={1}/>
             </Form.Item>
-            <Form.Item label="Invulnerable:"
+            <Form.Item name="inv"
+                       label="Invulnerable:"
                        rules={[{ required: false }]}
                        layout="vertical"
-                       value={inv}
-                       onChange={(e) => setInv(e.target.value)}
                        style={ inStyle }>
               <InputNumber stringMode={false}
                            min={1}
                            step={1}/>
             </Form.Item>
-            <Form.Item label="Feel no pain:"
+            <Form.Item name="fnp"
+                       label="Feel no pain:"
                        rules={[{ required: false }]}
                        layout="vertical"
-                       value={fnp}
-                       onChange={(e) => setFnp(e.target.value)}
                        style={ inStyle }>
               <InputNumber stringMode={false}
                            min={1}
                            step={1}/>
             </Form.Item>
-            <Form.Item valuePropName="checked"
+            <Form.Item name="vehicle"
+                       layout="vertical"
+                       valuePropName="checked"
+                       initialValue={false}
                        label= "Vehicle:"
-                       value={vehicle}
-                       onChange={(e) => setVehicle(e.target.value)}
-                       style={ inStyle }>
+                       style={{ width: 60 }}>
               <Checkbox style={{ size: "large"}}></Checkbox>
             </Form.Item>
-            <Button type="submit" onClick={handleSubmit}>
+            <Button type="primary"
+                    htmlType="submit"
+                    >
                 Set Defender
             </Button>
         </Form>

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { Flex,
          Layout,
          Divider,
@@ -17,6 +17,26 @@ import DefenderInput from "./Defender";
 const { Header, Footer, Sider, Content } = Layout;
 
 export default function App() {
+  
+const [offInput, setOffInput] = useState({});
+const [defInput, setDefInput] = useState({});
+const [result, setResult] = useState(null);
+
+  async function handleSubmit(e) {
+      e.preventDefault();
+      const response = await fetch(`${API_URL}/calculate`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify([ offInput, defInput ]),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error ${response.status}`);
+      }
+      const data = await response.json();  //Parse response
+      console.log('Success:', data);
+      setResult(data);                     //Save it to state
+    };
+
 
   //API URL
   const API_URL =
@@ -25,11 +45,17 @@ export default function App() {
         : 'http://localhost:8000'; // address for local architecture
 
   //Change variables
-    const handleChange = value => {
-      console.log(`selected ${value}`);
+    useEffect(() => {
+    }, [offInput, defInput]);
+
+    //Attacker object
+    function onAFinish(input) {
+      setOffInput(input)
     };
-    const onChange = e => {
-      console.log(`checked = ${e.target.checked}`);
+
+    //Defender object
+    function onDFinish(input) {
+      setDefInput(input)
     };
     //==========================
     //Layout variables
@@ -84,14 +110,6 @@ export default function App() {
       overflow: 'hidden',
     };
 
-  function refreshAttacker() {
-        setRefreshTrigger((prev) => prev + 1);
-    }
-
-  function refreshDefender() {
-        setRefreshTrigger((prev) => prev + 1);
-    }
-
   //Card Styling
   const cStyle = {
     width: ' 50% ',
@@ -111,9 +129,7 @@ export default function App() {
   //Button Styling
   const bStyle = {
     size:'large',
-    
   };
-
     
     //========================RETURN========================
     return (
@@ -138,28 +154,26 @@ export default function App() {
             <Card title = "Attacking Unit"
                   style={ cStyle }>
               <AttackerInput
-                  API_URL={API_URL}
-                  onAttackerSet={refreshAttacker}
+                  onFinish={onAFinish}
               />{' '}
             </Card>
 
             <Card title = "Defending Unit"
                   style={ cStyle }>
                 <DefenderInput
-                  API_URL={API_URL}
-                  onDefenderSet={refreshDefender}
+                  onFinish={onDFinish}
               />{' '}
             </Card>
             
           </Content>
             </Layout>
               <Footer style={footerStyle}>
-            <Button type="primary" 
-                    htmlType="submit"
+            <Button type="primary"
+                    onClick={handleSubmit}
                     style={bStyle}>Generate</Button>
                 </Footer>
               <Footer style={footerStyle}>
-                <b>Graphing data goes here!</b>
+                <b>Graph Data goes here!</b>
                 </Footer>
             </Layout>
         </Flex>
