@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from fastapi import (
     FastAPI,
     HTTPException,
+    Request,
 )
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
@@ -16,6 +17,8 @@ from sqlalchemy.ext.asyncio import (
     AsyncSession,
     create_async_engine,
 )
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.responses import Response
 from sqlalchemy.future import select
 from sqlalchemy.orm import sessionmaker
 
@@ -26,6 +29,34 @@ app = FastAPI(
     title="Calculator API", description="A simple CRUD API for managing the calculator"
 )
 
+#====================a
+# CORS Middleware
+#====================
+class ForceCORSMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        # Handle preflight
+        if request.method == "OPTIONS":
+            return Response(
+                status_code=200,
+                headers={
+                    "Access-Control-Allow-Origin": "http://localhost:5173",
+                    "Access-Control-Allow-Methods": "*",
+                    "Access-Control-Allow-Headers": "*",
+                    "Access-Control-Allow-Credentials": "true",
+                }
+            )
+
+        try:
+            response = await call_next(request)
+        except Exception as exc:
+            # Even on crash, we return a response with CORS headers
+            response = Response(content=f"Server error: {str(exc)}", status_code=500)
+
+        response.headers["Access-Control-Allow-Origin"] = "http://localhost:5173"
+        response.headers["Access-Control-Allow-Credentials"] = "true"
+        return response
+
+app.add_middleware(ForceCORSMiddleware)
 #====================
 # Unit Objects
 #====================
@@ -58,8 +89,9 @@ class Calculations(BaseModel):
     scount: Optional[int] = 0
     cscount: Optional[int] = 0
     fnpcount: Optional[int] = 0
-    damage: Optional[int] = 0
-    ukilled: Optional[int] = 0
+    damage: Optional[int]
+    ukilled: Optional[int]
+    modleft: Optional[int]
 
     def to_dict(self):
         return{
@@ -71,6 +103,7 @@ class Calculations(BaseModel):
             "fnpcount": self.fnpcount,
             "damage": self.damage,
             "ukilled": self.ukilled,
+            "modleft": self.modleft
         }
             
 
@@ -82,26 +115,28 @@ class CalcRequest(BaseModel):
 
 # Balistic skill converter
 def bws(attacker: AttackInput):
+    # Regular
     if attacker.snap == False:
         if attacker.skill < 6:
-            toHit = 6 - (attacker.skill - 1)
+            return 7 - attacker.skill
         elif attacker.skill < 10:
-            tohit = 2
             attacker.crit = 12 - attacker.skill
+            return 2
         else:
-            tohit = 1
+            return 1
+    # Snapshots
     else:
-        if attacker.skill == 2 | attacker.skill == 3:
-            tohit = 6
-        elif attacker.skill == 4 | attacker.skill == 5:
-            tohit = 5
-        elif attacker.skill == 6 | attacker.skill == 7 | attacker.skill == 8:
-            tohit = 4
+        # Fixed: was using | (bitwise) instead of or / in
+        if attacker.skill in (2, 3):
+            return 6
+        elif attacker.skill in (4, 5):
+            return 5
+        elif attacker.skill in (6, 7, 8):
+            return 4
         elif attacker.skill == 9:
-            tohit = 3
+            return 3
         else:
-            tohit = 2
-    return tohit
+            return 2
 
 # Wound Calculator
 def wounding(attacker: AttackInput, defender: DefendInput):
@@ -134,7 +169,12 @@ def saving(attacker: AttackInput, defender: DefendInput):
 #====================
 # Calculator Endpoint
 #====================
+@app.get("/weenis")
+async def ultramarines():
+    return "Hello We are getting weenises"
 
+
+# CREATE: Run Calculator
 @app.post("/calculate")
 async def calculate(request: CalcRequest):
     #Make it so that this runs 20 times then outputs to graphs
@@ -143,7 +183,7 @@ async def calculate(request: CalcRequest):
     dinput = request.defInput
     calc = Calculations()
 
-    dmodels = [dinput.W for _ in dinput.dmodels]            #array of defending models and their wounds
+      #array of defending models and their wounds
     tattacks = ainput.models * ainput.attacks               #total attacks
     
     # Hitting
@@ -188,26 +228,14 @@ async def calculate(request: CalcRequest):
     # Damage Allocation
     i = 0
     calc.ukilled = 0
-    while moddamage >= 0:
-        if dmodels[i] > 0:
-            dmodels[i] -= 1
-            moddamage -= 1
-        else:
-            i += 1
-            calc.ukilled +=1
-    
-    return JSONResponse(content=calc.to_dict())
-
-#====================a
-# CORS Middleware
-#====================
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins (in production, specify exact URLs)
-    allow_credentials=True,
-    allow_methods=["*"],  # Allows all HTTP methods (GET, POST, etc.)
-    allow_headers=["*"],  # Allows all headers
-)
+    totalwounds = dinput.W * dinput.dmodels
+    remwounds = totalwounds - calc.damage
+    print(remwounds)
+    if remwounds <= 0:
+        calc.ukilled = dinput.models
+    else:
+        calc.modleft = remwounds / dinput.W
+        calc.ukilled = dinput.dmodels - calc.modleft
 
 static_dir = os.path.join(os.path.dirname(__file__), "..", "static")
 if os.path.exists(static_dir):
