@@ -26,6 +26,40 @@ app = FastAPI(
     title="Calculator API", description="A simple CRUD API for managing the calculator"
 )
 
+#====================a
+# CORS Middleware
+#====================
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins (in production, specify exact URLs)
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all HTTP methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allows all headers
+)
+
+static_dir = os.path.join(os.path.dirname(__file__), "..", "static")
+if os.path.exists(static_dir):
+    # Mount static files (CSS, JS, images, etc.)
+    app.mount(
+        "/assets",
+        StaticFiles(directory=os.path.join(static_dir, "assets")),
+        name="assets",
+    )
+
+    # Serve index.html for all non-API routes (SPA routing)
+    # This catch-all route must be last so API routes take precedence
+@app.get("/{full_path:path}")
+async def serve_spa(full_path: str):
+    """
+    Serve the React app for all non-API routes.
+    This allows React Router to handle client-side routing.
+    """
+    index_path = os.path.join(static_dir, "index.html")
+    if os.path.exists(index_path):
+        return FileResponse(index_path)
+    raise HTTPException(status_code=404, detail="Frontend not found")
+    
+
 #====================
 # Unit Objects
 #====================
@@ -51,6 +85,7 @@ class DefendInput(BaseModel):
     fnp: Optional[int] = 7
     vehicle: bool = False
 
+# Calculation holder
 class Calculations(BaseModel):
     hcount: Optional[int] = 0
     ccount: Optional[int] = 0
@@ -82,46 +117,47 @@ class CalcRequest(BaseModel):
 
 # Balistic skill converter
 def bws(attacker: AttackInput):
-    if attacker.snap == False:
-        if attacker.skill < 6:
-            toHit = 6 - (attacker.skill - 1)
-        elif attacker.skill < 10:
+    if attacker.snap == False:                      #check for snap shots
+        if attacker.skill < 6:                      #non crit bs
+            tohit = 7 - (attacker.skill)
+        elif attacker.skill < 10:                   #crit bs
             tohit = 2
             attacker.crit = 12 - attacker.skill
         else:
-            tohit = 1
-    else:
+            tohit = 1                                       #auto hit
+    else:                                                   #snap shot checks
         if attacker.skill == 2 | attacker.skill == 3:
             tohit = 6
         elif attacker.skill == 4 | attacker.skill == 5:
             tohit = 5
-        elif attacker.skill == 6 | attacker.skill == 7 | attacker.skill == 8:
+        elif attacker.skill >= 6 | attacker.skill <= 8:
             tohit = 4
         elif attacker.skill == 9:
             tohit = 3
         else:
             tohit = 2
-    return tohit
+    return tohit                                            #return modified variable
 
 # Wound Calculator
 def wounding(attacker: AttackInput, defender: DefendInput):
     # For Infantry
     if defender.vehicle == False:
-        if attacker.S < defender.T - 3:         #impossible of 4 or less
+        diff = attacker.S - defender.T
+        if diff <= -4:         #impossible of 4 or less
             return 7
-        if attacker.S < defender.T - 1:         #6+ for 2 or 3 less
+        elif diff <= -2:         #6+ for 2 or 3 less
             return 6
-        elif attacker.S == defender.T - 1:      #5+ for 1 less
-            return 3
-        elif attacker.S == defender.T:          #4+ for equal
+        elif diff == -1:      #5+ for 1 less
+            return 5
+        elif diff == 0:          #4+ for equal
             return 4
-        elif attacker.S == defender.T + 1:      #3+ for 1 higher
+        elif diff == 1:      #3+ for 1 higher
             return 3
-        elif attacker.S > defender.T + 1:       #2+ for 2 or more diff
+        else:               #2+ for 2 or more diff
             return 2
     # For Vehicles
     else:
-        topen = defender.T - attacker.S + 1   #to penetrate
+        topen = max(defender.T - attacker.S + 1, 2)   #to penetrate (minimum 2)
         return topen
 
 def saving(attacker: AttackInput, defender: DefendInput):
@@ -144,11 +180,11 @@ async def calculate(request: CalcRequest):
     dinput = request.defInput
     calc = Calculations()
 
-    dmodels = [dinput.W for _ in dinput.dmodels]            #array of defending models and their wounds
-    tattacks = ainput.models * ainput.attacks               #total attacks
+    dmodels = [dinput.W for _ in range(dinput.dmodels)]     #array of defending models and their wounds
+    tattacks = ainput.amodels * ainput.attacks               #total attacks
     
     # Hitting
-    hit = [random.randint(1, 6) for _ in tattacks]      #rolls totall attacks and places them into an array
+    hit = [random.randint(1, 6) for _ in range(tattacks)]      #rolls totall attacks and places them into an array
 
     for num in hit:                                     #how many rolls in hit were successful
         if num > bws(ainput):
@@ -189,49 +225,18 @@ async def calculate(request: CalcRequest):
     # Damage Allocation
     i = 0
     calc.ukilled = 0
-    while moddamage >= 0:
-        if dmodels[i] > 0:
-            dmodels[i] -= 1
-            moddamage -= 1
-        else:
-            i += 1
-            calc.ukilled +=1
+    if len(dmodels) > 0:
+        while moddamage >= 0:
+            if dmodels[i] > 0:
+                dmodels[i] -= 1
+                moddamage -= 1
+            else:
+                i += 1
+                calc.ukilled +=1
     
     return JSONResponse(content=calc.to_dict())
 
-#====================a
-# CORS Middleware
-#====================
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins (in production, specify exact URLs)
-    allow_credentials=True,
-    allow_methods=["*"],  # Allows all HTTP methods (GET, POST, etc.)
-    allow_headers=["*"],  # Allows all headers
-)
 
-static_dir = os.path.join(os.path.dirname(__file__), "..", "static")
-if os.path.exists(static_dir):
-    # Mount static files (CSS, JS, images, etc.)
-    app.mount(
-        "/assets",
-        StaticFiles(directory=os.path.join(static_dir, "assets")),
-        name="assets",
-    )
-
-    # Serve index.html for all non-API routes (SPA routing)
-    # This catch-all route must be last so API routes take precedence
-    @app.get("/{full_path:path}")
-    async def serve_spa(full_path: str):
-        """
-        Serve the React app for all non-API routes.
-        This allows React Router to handle client-side routing.
-        """
-        index_path = os.path.join(static_dir, "index.html")
-        if os.path.exists(index_path):
-            return FileResponse(index_path)
-        raise HTTPException(status_code=404, detail="Frontend not found")
-    
 #====================
 # MAIN
 #====================
