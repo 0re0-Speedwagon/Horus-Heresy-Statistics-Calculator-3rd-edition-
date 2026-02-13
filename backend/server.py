@@ -176,65 +176,69 @@ def saving(attacker: AttackInput, defender: DefendInput):
 async def calculate(request: CalcRequest):
     #Make it so that this runs 20 times then outputs to graphs
 
-    ainput = request.offInput
-    dinput = request.defInput
-    calc = Calculations()
+    ainput = request.offInput       #attacker input
+    dinput = request.defInput       #defender input
+    calc = []                       #array of calculations
 
-    dmodels = [dinput.W for _ in range(dinput.dmodels)]     #array of defending models and their wounds
-    tattacks = ainput.amodels * ainput.attacks               #total attacks
-    
-    # Hitting
-    hit = [random.randint(1, 6) for _ in range(tattacks)]      #rolls totall attacks and places them into an array
+    for i in range(20):
+        calc.append(Calculations())
+        dmodels = [dinput.W for _ in range(dinput.dmodels)]     #array of defending models and their wounds
+        tattacks = ainput.amodels * ainput.attacks               #total attacks
 
-    for num in hit:                                     #how many rolls in hit were successful
-        if num > bws(ainput):
-            if num >= ainput.crit:
-                calc.ccount += 1             #if crit skip wounds
-            else:
-                calc.hcount += 1             #if regular add to wounds
+        # Hitting
+        hit = [random.randint(1, 6) for _ in range(tattacks)]      #rolls totall attacks and places them into an array
 
-    # Wounding
-    wound = [random.randint(1, 6) for _ in range(calc.hcount)]   #rolls total wounds and places them into an array
+        for num in hit:                                     #how many rolls in hit were successful
+            if num > bws(ainput):
+                if num >= ainput.crit:
+                    calc[i].ccount += 1             #if crit skip wounds
+                else:
+                    calc[i].hcount += 1             #if regular add to wounds
 
-    for num in wound:                                       #how many rolls in wound were successful
-        if num > wounding(ainput, dinput):
-            calc.wcount += 1
+        # Wounding
+        wound = [random.randint(1, 6) for _ in range(calc[i].hcount)]   #rolls total wounds and places them into an array
 
-    # Saves
-    regsave = [random.randint(1, 6) for _ in range(calc.wcount)]     #rolls total saves and places them into an array
-    critsave = [random.randint(1, 6) for _ in range(calc.ccount)]    #rolls crit saves and places them into an array
+        for num in wound:                                       #how many rolls in wound were successful
+            if num > wounding(ainput, dinput):
+                calc[i].wcount += 1
 
-    for num in regsave:                                       #how many regular rolls in save were unsuccessful
-        if num < saving(ainput, dinput):
-            calc.scount += 1
+        # Saves
+        regsave = [random.randint(1, 6) for _ in range(calc[i].wcount)]     #rolls total saves and places them into an array
+        critsave = [random.randint(1, 6) for _ in range(calc[i].ccount)]    #rolls crit saves and places them into an array
 
-    for num in critsave:                                       #how many crit rolls in save were unsuccessful
-        if num < saving(ainput, dinput):
-            calc.cscount += 1
-    
-    calc.damage = (calc.scount * ainput.D) + (calc.cscount * ainput.D + 1)
-    moddamage = calc.damage                                          #second damage varaible for modifying
-    # Feel No Pain
-    if dinput.fnp < 7:         #if a fnp actually exists
-        fnp = [random.randint(1, 6) for _ in range(calc.damage)]     #rolls feel no pains and places them into an array
+        for num in regsave:                                       #how many regular rolls in save were unsuccessful
+            if num < saving(ainput, dinput):
+                calc[i].scount += 1
 
-        for num in fnp:                                               #how many regular rolls in fnp were unsuccessful
-            if num < dinput.fnp:
-                calc.fnpcount += 1
+        for num in critsave:                                       #how many crit rolls in save were unsuccessful
+            if num < saving(ainput, dinput):
+                calc[i].cscount += 1
 
-    # Damage Allocation
-    i = 0
-    calc.ukilled = 0
-    if len(dmodels) > 0:
-        while moddamage >= 0:
-            if dmodels[i] > 0:
-                dmodels[i] -= 1
-                moddamage -= 1
-            else:
-                i += 1
-                calc.ukilled +=1
-    
-    return JSONResponse(content=calc.to_dict())
+        calc[i].damage = (calc[i].scount * ainput.D) + (calc[i].cscount * ainput.D + 1)
+        moddamage = calc[i].damage                                          #second damage varaible for modifying
+        # Feel No Pain
+        if dinput.fnp < 7:         #if a fnp actually exists
+            fnp = [random.randint(1, 6) for _ in range(calc[i].damage)]     #rolls feel no pains and places them into an array
+
+            for num in fnp:                                               #how many regular rolls in fnp were unsuccessful
+                if num < dinput.fnp:
+                    calc[i].fnpcount += 1
+
+        # Damage Allocation
+        #REWRITE THIS!!!!!!
+        j = 0
+        calc[i].ukilled = 0
+        if len(dmodels) > 0:
+            while moddamage >= 0:
+                if dmodels[i] > 0:
+                    dmodels[i] -= 1
+                    moddamage -= 1
+                else:
+                    j += 1
+                    calc[i].ukilled +=1
+
+    print([c.to_dict() for c in calc])
+    return JSONResponse(content=[c.to_dict() for c in calc])
 
 
 #====================
