@@ -73,23 +73,42 @@ class AttackInput(BaseModel):
     AP: int = 0
     D: int = 0
     crit: Optional[int] = 7
-    snap: bool = False
+    abulky: int = 1
 
 # Defending unit
 class DefendInput(BaseModel):
     dmodels: int = 0
+    skill: Optional[int] = 1
     T: int = 0
     W: int = 0
     sav: int = 0
     inv: Optional[int] = 7
     fnp: Optional[int] = 7
+    ewarrior: Optional[int] = 0
     vehicle: bool = False
+    dbulky: Optional[int] = 1
+    shroud: Optional[int] = 7
+
+# Keywords
+class Keywords(BaseModel):
+    snap: Optional[bool] = False
+    armourbane: Optional[bool] = False
+    deflagrate: Optional[bool] = False
+    twinLinked: Optional[bool] = False
+    hatred: Optional[bool] = False
+    breaching: Optional[int] = 7
+    crithits: Optional[int] = 7
+    rend: Optional[int] = 7
+    shred: Optional[int] = 7
+    rblow: Optional[int] = 0
+    phase: Optional[int] = 0
 
 # Calculation holder
 class Calculations(BaseModel):
     hcount: Optional[int] = 0
     ccount: Optional[int] = 0
     wcount: Optional[int] = 0
+    bwcount: Optional[int] = 0
     scount: Optional[int] = 0
     cscount: Optional[int] = 0
     fnpcount: Optional[int] = 0
@@ -101,6 +120,7 @@ class Calculations(BaseModel):
             "hcount": self.hcount,
             "ccount": self.ccount,
             "wcount": self.wcount,
+            "bwcount": self.bwcount,
             "scount": self.scount,
             "cscount": self.cscount,
             "fnpcount": self.fnpcount,
@@ -113,51 +133,73 @@ class Calculations(BaseModel):
 class CalcRequest(BaseModel):
     offInput: AttackInput
     defInput: DefendInput
+    kwords: Keywords
 
 
 # Balistic skill converter
-def bws(attacker: AttackInput):
-    if attacker.snap == False:                      #check for snap shots
-        if attacker.skill < 6:                      #non crit bs
-            tohit = 7 - (attacker.skill)
-        elif attacker.skill < 10:                   #crit bs
-            tohit = 2
-            attacker.crit = 12 - attacker.skill
-        else:
-            tohit = 1                                       #auto hit
-    else:                                                   #snap shot checks
-        if attacker.skill == 2 | attacker.skill == 3:
-            tohit = 6
-        elif attacker.skill == 4 | attacker.skill == 5:
-            tohit = 5
-        elif attacker.skill >= 6 | attacker.skill <= 8:
-            tohit = 4
-        elif attacker.skill == 9:
-            tohit = 3
-        else:
-            tohit = 2
-    return tohit                                            #return modified variable
+def bws(attacker: AttackInput, defender: DefendInput, keywords: Keywords):
+    if keywords.phase == 0:
+        #Shooting hits
+        if not keywords.snap:
+            if attacker.skill < 6:
+                attacker.crit = keywords.crithits
+                return 7 - attacker.skill
+            if attacker.skill < 10:
+                attacker.crit = 12 - attacker.skill
+                return 2
+            return 1
+
+        # Snap shots
+        bs = attacker.skill
+        if bs <= 3:
+            return 6
+        if bs <= 5:
+            return 5
+        if bs <= 8:
+            return 4
+        if bs == 9:
+            return 3
+        return 2
+    
+    #Melee Hits
+    #if a vehicle
+    if defender.vehicle:
+        return 2
+    #regular melee
+    if attacker.skill >= defender.skill * 2: 
+        return 2 
+    if attacker.skill > defender.skill: 
+        return 3 
+    if attacker.skill == defender.skill: 
+        return 4 
+    if attacker.skill * 2 <= defender.skill: 
+        return 6 
+    return 5
 
 # Wound Calculator
-def wounding(attacker: AttackInput, defender: DefendInput):
+def wounding(attacker: AttackInput, defender: DefendInput, keywords: Keywords):
     # For Infantry
-    if defender.vehicle == False:
+    if not defender.vehicle:
         diff = attacker.S - defender.T
-        if diff <= -4:         #impossible of 4 or less
-            return 7
-        elif diff <= -2:         #6+ for 2 or 3 less
-            return 6
-        elif diff == -1:      #5+ for 1 less
-            return 5
-        elif diff == 0:          #4+ for equal
-            return 4
-        elif diff == 1:      #3+ for 1 higher
-            return 3
-        else:               #2+ for 2 or more diff
-            return 2
+        thresholds = [
+            (-4, 7),
+            (-2, 6),
+            (-1, 5),
+            (0, 4),
+            (1, 3),
+        ]
+        for limit, result in thresholds:
+            if diff <= limit:
+                if keywords.hatred:             #hatred check
+                    result -= 1
+                return result
+        return 2
+
     # For Vehicles
     else:
         topen = max(defender.T - attacker.S + 1, 2)   #to penetrate (minimum 2)
+        if keywords.armourbane:
+            topen -= 1
         return topen
 
 def saving(attacker: AttackInput, defender: DefendInput):
@@ -178,64 +220,73 @@ async def calculate(request: CalcRequest):
 
     ainput = request.offInput       #attacker input
     dinput = request.defInput       #defender input
+    keywords = request.kwords       #keywords
     calc = []                       #array of calculations
 
     for i in range(20):
         calc.append(Calculations())
-        dmodels = [dinput.W for _ in range(dinput.dmodels)]     #array of defending models and their wounds
-        tattacks = ainput.amodels * ainput.attacks               #total attacks
+        modelattacks = ainput.attacks
+        if ainput.amodels * ainput.abulky < dinput.dmodels * dinput.dbulky:
+            modelattacks = ainput.attacks + keywords.rblow
+        tattacks = ainput.amodels * modelattacks               #total attacks
 
         # Hitting
-        hit = [random.randint(1, 6) for _ in range(tattacks)]      #rolls totall attacks and places them into an array
+        target = bws(ainput, dinput, keywords)
+        for _ in range(tattacks):
+            roll = random.randint(1, 6)
 
-        for num in hit:                                     #how many rolls in hit were successful
-            if num > bws(ainput):
-                if num >= ainput.crit:
-                    calc[i].ccount += 1             #if crit skip wounds
+            # First attempt
+            if roll < target and keywords.twinLinked:
+                roll = random.randint(1, 6)   # reroll once
+        
+            # After reroll (or no reroll), evaluate result
+            if roll >= target:
+                if roll >= ainput.crit:
+                    calc[i].ccount += 1
                 else:
-                    calc[i].hcount += 1             #if regular add to wounds
-
+                    calc[i].hcount += 1
+                
         # Wounding
-        wound = [random.randint(1, 6) for _ in range(calc[i].hcount)]   #rolls total wounds and places them into an array
+        target = wounding(ainput, dinput, keywords)
+        for _ in range(calc[i].hcount):
+            num = random.randint(1, 6)              #roll a d6
+            if num >= target:
+                if num >= keywords.breaching:          #breach check
+                    calc[i].bwcount += 1    
+                else:
+                    calc[i].wcount += 1             #if no breach cont.
 
-        for num in wound:                                       #how many rolls in wound were successful
-            if num > wounding(ainput, dinput):
-                calc[i].wcount += 1
-
-        # Saves
-        regsave = [random.randint(1, 6) for _ in range(calc[i].wcount)]     #rolls total saves and places them into an array
-        critsave = [random.randint(1, 6) for _ in range(calc[i].ccount)]    #rolls crit saves and places them into an array
-
-        for num in regsave:                                       #how many regular rolls in save were unsuccessful
-            if num < saving(ainput, dinput):
+        # Regular Save
+        target = saving(ainput, dinput)
+        for _ in range(calc[i].wcount):                            #how many regular rolls in save were unsuccessful
+            num = random.randint(1, 6)
+            if num >= target:
                 calc[i].scount += 1
 
-        for num in critsave:                                       #how many crit rolls in save were unsuccessful
-            if num < saving(ainput, dinput):
+        # Critical Save
+        for _ in range(calc[i].ccount):                                       #how many crit rolls in save were unsuccessful
+            num = random.randint(1, 6)
+            if num >= target:
                 calc[i].cscount += 1
 
-        calc[i].damage = (calc[i].scount * ainput.D) + (calc[i].cscount * ainput.D + 1)
-        moddamage = calc[i].damage                                          #second damage varaible for modifying
-        # Feel No Pain
-        if dinput.fnp < 7:         #if a fnp actually exists
-            fnp = [random.randint(1, 6) for _ in range(calc[i].damage)]     #rolls feel no pains and places them into an array
+        calc[i].damage = ((calc[i].wcount - calc[i].scount) * max(ainput.D - dinput.ewarrior, 1)) + ((calc[i].ccount - calc[i].cscount) * max(ainput.D - dinput.ewarrior, 1))
 
-            for num in fnp:                                               #how many regular rolls in fnp were unsuccessful
+        # Feel No Pain
+        if dinput.fnp < 7:                          #if a fnp actually exists
+            for _ in range(calc[i].damage):         #how many regular rolls in fnp were unsuccessful
+                num = random.randint(1, 6)
                 if num < dinput.fnp:
                     calc[i].fnpcount += 1
 
         # Damage Allocation
-        #REWRITE THIS!!!!!!
-        j = 0
-        calc[i].ukilled = 0
-        if len(dmodels) > 0:
-            while moddamage >= 0:
-                if dmodels[i] > 0:
-                    dmodels[i] -= 1
-                    moddamage -= 1
-                else:
-                    j += 1
-                    calc[i].ukilled +=1
+        model = dinput.W                                                                           #initial model set
+        for _ in range((calc[i].wcount - calc[i].scount) + (calc[i].ccount - calc[i].cscount)):    #unsaved wounds loop
+            model -= max(ainput.D - dinput.ewarrior, 1)                                            #apply damage to model
+            if model <= 0:                                                                         #reset model and increment if dead
+                model = dinput.W
+                calc[i].ukilled += 1
+
+
 
     print([c.to_dict() for c in calc])
     return JSONResponse(content=[c.to_dict() for c in calc])

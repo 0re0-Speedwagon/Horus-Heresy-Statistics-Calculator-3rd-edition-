@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, InputNumber, Checkbox } from 'antd';
+import { Button, Form, InputNumber, Checkbox } from 'antd';
 
-export default function AttackerInput({ onFinish }) {
+
+export default function AttackerInput({ onFinish, phase }) {
     const [amodels, setAmodels] = useState(0);
     const [attacks, setAttacks] = useState(0);
     const [skill, setSkill] = useState(0);
@@ -9,10 +10,10 @@ export default function AttackerInput({ onFinish }) {
     const [AP, setAP] = useState(0);
     const [D, setD] = useState(0);
     const [crit, setCrit] = useState(0);
-    const [snap, setSnap] = useState(false);
+    const [abulky, setABulky] = useState(0);
 
     const inStyle = {
-      width: 125
+      width: 130
     };
 
     return (
@@ -28,6 +29,7 @@ export default function AttackerInput({ onFinish }) {
                          style={ inStyle }>
                 <InputNumber stringMode={false}
                              min={1}
+                             max={40}
                              step={1}/>
               </Form.Item>
               <Form.Item name = "attacks"
@@ -39,15 +41,26 @@ export default function AttackerInput({ onFinish }) {
                              min={1}
                              step={1}/>
               </Form.Item>
-              <Form.Item name = "skill"
-                         label="BS/WS:"
+              { phase === "0" && <Form.Item name = "skill"
+                         label="BS:"
                          rules={[{ required: true }]}
                          layout="vertical"
                          style={ inStyle }>
                 <InputNumber stringMode={false}
                              min={2}
+                             max={10}
                              step={1}/>
-              </Form.Item>
+              </Form.Item>}
+              { (phase === "1" || phase === "2") && <Form.Item name = "skill"
+                         label="WS:"
+                         rules={[{ required: true }]}
+                         layout="vertical"
+                         style={ inStyle }>
+                <InputNumber stringMode={false}
+                             min={2}
+                             max={10}
+                             step={1}/>
+              </Form.Item>}
               <Form.Item name = "S"
                          label="Strength:"
                          rules={[{ required: true }]}
@@ -55,6 +68,7 @@ export default function AttackerInput({ onFinish }) {
                          style={ inStyle }>
                 <InputNumber stringMode={false}
                              min={1}
+                             max={14}
                              step={1}/>
               </Form.Item>
               <Form.Item name = "AP"
@@ -64,6 +78,7 @@ export default function AttackerInput({ onFinish }) {
                          style={ inStyle }>
                 <InputNumber stringMode={false}
                              min={1}
+                             max={7}
                              step={1}/>
               </Form.Item>
               <Form.Item name = "D"
@@ -73,18 +88,23 @@ export default function AttackerInput({ onFinish }) {
                          style={ inStyle }>
                 <InputNumber stringMode={false}
                              min={1}
+                             max={20}
                              step={1}/>
               </Form.Item>
-              <Form.Item name = "snap"
-                         valuePropName="checked"
-                         initialValue={false}
-                         label= "Firing Snapshots:"
-                         style={{ width: 120 }}>
-                <Checkbox style={{ size: "large"}}></Checkbox>
+              { phase === "1" && <Form.Item name = "abulky"
+                         label="Bulky:"
+                         layout="vertical"
+                         style={ inStyle }>
+                <InputNumber stringMode={false}
+                             min={1}
+                             max={12}
+                             step={1}/>
+              </Form.Item>}
+              <Form.Item style={{ textAlign: "center" }}>
+                <Button type="primary" htmlType="submit"> 
+                  Set Attacker 
+                </Button>
               </Form.Item>
-              <Button type="primary" htmlType="submit">
-                Set Attacker
-            </Button>
         </Form>
     );
 }
