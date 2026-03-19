@@ -1,0 +1,35 @@
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: black;
+}
+
+/* Change header background */
+.custom-drawer .ant-drawer-header {
+  background: #939393ff;
+  color: black;
+}
+
+/* Change drawer background */
+.custom-drawer .ant-drawer-body {
+  background: #939393ff; /* your color */
+  color: black;        /* optional */
+}
+
+.app-header {
+  position: relative;        /* allows absolute positioning inside */
+  display: flex;
+  justify-content: center;   /* keeps the title centered */
+  align-items: center;
+}
+
+.drawer-button {
+  position: absolute;
+  left: 32px;                 /* adjust this to hug closer or farther */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
+

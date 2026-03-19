@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, InputNumber, Checkbox } from 'antd';
+import { Button, Form, InputNumber} from 'antd';
 
 
 export default function AttackerInput({ onFinish, phase }) {

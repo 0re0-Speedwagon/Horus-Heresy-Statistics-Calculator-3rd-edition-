@@ -2,11 +2,15 @@ import React, {useState, useEffect} from "react";
 import { Flex,
          Layout,
          Card,
-         Button,} from 'antd';
+         Button,
+         Drawer} from 'antd';
 import AttackerInput from "./Attacker";
 import DefenderInput from "./Defender";
 import KeywordsInput from "./Keywords";
-import { Column } from '@ant-design/plots';
+import HitGraph from "./Graphs/Hits";
+import CritHitGraph from "./Graphs/Critical Hits";
+import './App.css';
+import { MoreOutlined } from '@ant-design/icons';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -17,112 +21,77 @@ const [defInput, setDefInput] = useState({});
 const [kwords, setKwords] = useState({});
 const [results, setResults] = useState([]);
 const [phase, setPhase] = useState("0");
+const [open, setOpen] = useState(false);
+//there's a good use of UseEffect here
 
-  //API URL
-  const API_URL =
-    import.meta.env.VITE_API_URL !== undefined
-        ? import.meta.env.VITE_API_URL // address for production architecture
-        : 'http://localhost:8000'; // address for local architecture
+//API URL
+const API_URL =
+  import.meta.env.VITE_API_URL !== undefined
+      ? import.meta.env.VITE_API_URL // address for production architecture
+      : 'http://localhost:8000'; // address for local architecture
 
-  async function handleSubmit(e) {
-      e.preventDefault();
-      const response = await fetch(`${API_URL}/calculate`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ offInput, defInput, kwords }),
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error ${response.status}`);
-      }
-      const data = await response.json();  //Parse response
-      console.log(data);
-      setResults(data);                     //Save it to state
-  };
-
-  //Change variables
-    useEffect(() => {
-    }, [offInput, defInput, kwords]);
-
-    //Attacker object
-    function onAFinish(input) {
-      setOffInput(input)
-    };
-
-    //Defender object
-    function onDFinish(input) {
-      setDefInput(input)
-    };
-
-    //Keywords object
-    function onKFinish(input){
-      setKwords(input)
-    };
-
-    //==========================
-    //Graphs
-    //==========================
-
-  // Build frequency table for hcount
-const hcountData = React.useMemo(() => {
-  const freq = {};
-  results.forEach(r => {
-    const h = r.hcount ?? 0;
-    freq[h] = (freq[h] || 0) + 1;
-  });
-
-  return Object.entries(freq).map(([hcount, count]) => ({
-    hcount,
-    count,
-  }));
-}, [results]);
-
-const hcountConfig = {
-  data: hcountData,
-  xField: 'hcount',
-  yField: 'count',
-  seriesField: 'count',
-  style: {
-    fill: "#0026ff"
-  },
-  label: {
-    style: { fill: '#FFFFFF', opacity: 0.8 },
-  },
-  xAxis: {
-    title: { text: 'Hit Count (hcount)' },
-  },
-  yAxis: {
-    title: { text: 'Frequency' },
-  },
-  columnStyle: {
-    fill: '#69c0ff',
-    stroke: '#0050b3',
-    lineWidth: 2,
-    tickAlign: 'center',
-  },
-  tooltip: {
-    showMarkers: false,
-  },
-  interactions: [{ type: 'active-region' }],
+async function handleSubmit(e) {
+    e.preventDefault();
+    const response = await fetch(`${API_URL}/calculate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ offInput, defInput, kwords }),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error ${response.status}`);
+    }
+    const data = await response.json();  //Parse response
+    console.log(data);
+    setResults(data);                     //Save it to state
 };
 
-    //==========================
-    //Layout variables
-    //==========================
+//Change variables
+useEffect(() => {
+}, [offInput, defInput, kwords]);
 
-    //Header
-    const headerStyle = {
-      textAlign: 'center',
-      color: '#000000ff',
-      fontSize: "48px",
-      height: 100,
-      paddingInline: 48,
-      lineHeight: '64px',
-      backgroundColor: '#525252ff',
-      border: '5px solid black',
-    };
+//Attacker object
+function onAFinish(input) {
+  setOffInput(input)
+};
 
-    //Content
-    const contentStyle = {
+//Defender object
+function onDFinish(input) {
+  setDefInput(input)
+};
+
+//Keywords object
+function onKFinish(input){
+  setKwords(input)
+};
+
+//==========================
+//Drawer
+//==========================
+const showDrawer = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
+
+//==========================
+//Layout variables
+//==========================
+
+//Header
+const headerStyle = {
+  textAlign: 'center',
+  color: '#000000ff',
+  fontSize: "48px",
+  height: 100,
+  paddingInline: 48,
+  lineHeight: '64px',
+  backgroundColor: '#525252ff',
+  border: '5px solid black',
+};
+
+//Content
+const contentStyle = {
       textAlign: 'center',
       fontSize: '24px',
       minHeight: 120,
@@ -133,59 +102,78 @@ const hcountConfig = {
       justifyContent: 'center',
       align: 'center',
       minWidth: '500px',
-    };
+};
 
-    //Sider
-    const siderStyle = {
+//Sider
+const siderStyle = {
       textAlign: 'center',
       lineHeight: '16px',
       fontSize: '16px',
       color: '#000000ff',
       backgroundColor: '#525252ff',
       border: '5px solid black',
-    };
+};
 
-    //Footer
-    const footerStyle = {
+//Footer
+const footerStyle = {
       textAlign: 'center',
       color: '#000000ff',
       backgroundColor: '#939393ff',
-    };
+};
 
-    //Total Layout
-    const layoutStyle = {
+//Total Layout
+const layoutStyle = {
       borderRadius: 8,
       overflow: 'hidden',
-    };
+};
 
-  //Card Styling
-  const cStyle = {
-    width: ' 50% ',
-    background: 'transparent',
-    border: '3px solid black',
-    justifyContent: 'center',
-    align: 'center',
-    margin: '5px',
-    minWidth: '130px',
-  };
+//Card Styling
+const cStyle = {
+  width: ' 50% ',
+  background: 'transparent',
+  border: '3px solid black',
+  justifyContent: 'center',
+  align: 'center',
+  margin: '5px',
+  minWidth: '130px',
+};
 
-  //Input Styling
-  const inStyle = {
+//Input Styling
+const inStyle = {
       width: 100
-  };
+};
 
-  //Button Styling
-  const bStyle = {
+//Button Styling
+const bStyle = {
     size:'large',
-  };
+};
 
-    //========================RETURN========================
-    return (
-      <Flex gap="middle" wrap>
+//========================RETURN========================
+return (
+  <Flex gap="middle" wrap>
         <Layout style={layoutStyle}>
-
-        <Header style={headerStyle}><b>Warhammer: The Horus Heresy 3.0 
-              Statistics Calculator</b></Header>
+          <Drawer
+        title="Extra Content"
+        className="custom-drawer"
+        closable={{ placement: 'start' }}
+        onClose={onClose}
+        open={open}
+        color="525252ff"
+        styles={{
+          header: { fontSize: 24 },
+          body: { fontSize: 18 }
+        }}
+      >
+        <p>Calculator</p>
+        <p>The Math Behind 30k</p>
+        <p>About the Creator</p>
+      </Drawer>
+        <Header style={headerStyle} className="app-header">
+        <Button ghost onClick={showDrawer} className="drawer-button">
+          <MoreOutlined />
+        </Button>
+        <b>Warhammer: The Horus Heresy 3.0 Statistics Calculator</b>
+        </Header>
         <Layout>
 
           <Content style={contentStyle}>
@@ -221,12 +209,13 @@ const hcountConfig = {
                     style={bStyle}>Generate</Button>
                 </Footer>
               <Footer style={footerStyle}>
-                  <b>Hit Count Distribution</b>
-
                   {results.length > 0 && (
-                    <div style={{ width: '700px', margin: '20px auto' }}>
-                      <Column {...hcountConfig} />
-                    </div>
+                    <>
+                      <b>Hit Distribution</b>
+                      <HitGraph data={results} />
+                      <b>Critical Hit Distribution</b>
+                      <CritHitGraph data={results} />
+                    </>
                   )}
                 </Footer>
             </Layout>
