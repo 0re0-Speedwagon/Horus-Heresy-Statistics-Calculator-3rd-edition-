@@ -1,35 +1,48 @@
-// components/HitGraph.jsx
 import React from "react";
 import { Column } from "@ant-design/plots";
+import "../App.css";
 
 
 export default function CritHitGraph({ data }) {
 
-    // Build frequency table for count
-    const countData = React.useMemo(() => {
-      const freq = {};
-      data.forEach(r => {
-        const h = r.ccount ?? 0;
-        freq[h] = (freq[h] || 0) + 1;
+  // Build frequency table for count
+  const countData = React.useMemo(() => {
+    const freq = {};
+    data.forEach(r => {
+      const h = r.ccount ?? 0;
+      freq[h] = (freq[h] || 0) + 1;
+    });
+  
+    return Object.entries(freq).map(([ccount, count]) => ({
+      ccount: Number(ccount),
+      count,
+    }));
+  }, [data]);
+  //Max Value Memo for having it as a global
+  const maxValue = React.useMemo(() => {
+    return countData.length
+      ? Math.max(...countData.map(d => d.count))
+      : 0;
+  }, [countData]);
+  // Build full range from min to max
+  const ccountData = React.useMemo(() => {
+    if (countData.length === 0) return [];
+  
+    const values = countData.map(d => d.ccount);
+    const minValue = Math.min(...values);
+    const maxValue = Math.max(...values);
+  
+    const range = [];
+    for (let i = minValue; i <= maxValue; i++) {
+      const existing = countData.find(d => d.ccount === i);
+      range.push({
+        ccount: i,
+        count: existing ? existing.count : 0,
       });
-
-      return Object.entries(freq).map(([ccount, count]) => ({
-        ccount,
-        count,
-      }));
-    }, [data]);
-
-    //Maximum number in dataset for graph customisation
-    const maxCount = React.useMemo(() => {
-      return countData.length
-        ? Math.max(...countData.map(d => d.count))
-        : 0;
-    }, [countData]);
-
-    //Average value of data set
-    const averageValue = countData.reduce((sum, d) => sum + d.ccount * d.count, 0) /
-                     countData.reduce((sum, d) => sum + d.count, 0);
-
+    }
+  
+    return range;
+  }, [countData]);
     //Graph configuration
     const countConfig = {
         data: countData,
@@ -44,7 +57,7 @@ export default function CritHitGraph({ data }) {
         //Scale
         scale: {
             y: {
-            domain: [0, (maxCount + (maxCount * .25))],
+            domain: [0, (maxValue + (maxValue * .25))],
             nice: false,     // prevents auto rounding the top
             padding: 0,      // removes extra headroom
           },
@@ -56,7 +69,7 @@ export default function CritHitGraph({ data }) {
     //Actual Return
     //======================
     return(
-        <div style={{ width: '700px', margin: '20px auto' }}>
+        <div className="graph-wrapper">
           <Column {...countConfig} />
         </div>
         

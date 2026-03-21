@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, InputNumber, Checkbox } from 'antd';
+import { Button, Form, InputNumber, Checkbox } from 'antd';
 
 export default function DefenderInput({ onFinish, phase }) {
     const [dmodels, setDmodels] = useState(0);

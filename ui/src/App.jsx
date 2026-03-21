@@ -4,18 +4,28 @@ import { Flex,
          Card,
          Button,
          Drawer} from 'antd';
-import AttackerInput from "./Attacker";
-import DefenderInput from "./Defender";
-import KeywordsInput from "./Keywords";
-import HitGraph from "./Graphs/Hits";
-import CritHitGraph from "./Graphs/Critical Hits";
 import './App.css';
 import { MoreOutlined } from '@ant-design/icons';
 
-const { Header, Footer, Sider, Content } = Layout;
+import AttackerInput from "./Attacker";
+import DefenderInput from "./Defender";
+import KeywordsInput from "./Keywords";
+
+import HitGraph from "./Graphs/Hits";
+import CritHitGraph from "./Graphs/Critical Hits";
+import WoundGraph from "./Graphs/Wounds";
+import BreachWoundGraph from "./Graphs/Breaching Wounds";
+import SaveGraph from "./Graphs/Saves";
+import CritSaveGraph from "./Graphs/Critical Saves";
+import FeelNoPainGraph from "./Graphs/FNP";
+import DamageGraph from "./Graphs/Damage";
+import UnitKilledGraph from "./Graphs/Units Killed";
 
 export default function App() {
+
   
+const { Header, Footer, Content } = Layout;
+
 const [offInput, setOffInput] = useState({});
 const [defInput, setDefInput] = useState({});
 const [kwords, setKwords] = useState({});
@@ -104,16 +114,6 @@ const contentStyle = {
       minWidth: '500px',
 };
 
-//Sider
-const siderStyle = {
-      textAlign: 'center',
-      lineHeight: '16px',
-      fontSize: '16px',
-      color: '#000000ff',
-      backgroundColor: '#525252ff',
-      border: '5px solid black',
-};
-
 //Footer
 const footerStyle = {
       textAlign: 'center',
@@ -136,11 +136,6 @@ const cStyle = {
   align: 'center',
   margin: '5px',
   minWidth: '130px',
-};
-
-//Input Styling
-const inStyle = {
-      width: 100
 };
 
 //Button Styling
@@ -166,7 +161,7 @@ return (
       >
         <p>Calculator</p>
         <p>The Math Behind 30k</p>
-        <p>About the Creator</p>
+        <p>About the Developer</p>
       </Drawer>
         <Header style={headerStyle} className="app-header">
         <Button ghost onClick={showDrawer} className="drawer-button">
@@ -210,14 +205,62 @@ return (
                 </Footer>
               <Footer style={footerStyle}>
                   {results.length > 0 && (
-                    <>
-                      <b>Hit Distribution</b>
-                      <HitGraph data={results} />
-                      <b>Critical Hit Distribution</b>
-                      <CritHitGraph data={results} />
-                    </>
+                    <div className="graph-grid">
+                      <div className="graph-item">
+                        <b>Hit Distribution</b>
+                        <HitGraph data={results} />
+                      </div>
+
+                      <div className="graph-item">
+                        <b>Critical Hit Distribution</b>
+                        <CritHitGraph data={results} />
+                      </div>
+
+                      <div className="graph-item">
+                        <b>Wound Distribution</b>
+                        <WoundGraph data={results} />
+                      </div>
+                      
+                      <div className="graph-item">
+                        <b>Breaching Distribution</b>
+                        <BreachWoundGraph data={results} />
+                      </div>
+
+                      <div className="graph-item">
+                        <b>Save Distribution</b>
+                        <SaveGraph data={results} />
+                      </div>
+
+                      <div className="graph-item">
+                        <b>Critical Save Distribution</b>
+                        <CritSaveGraph data={results} />
+                      </div>
+
+                      <div className="graph-item">
+                        <b>Feel No Pain Distribution</b>
+                        <FeelNoPainGraph data={results} />
+                      </div>
+
+                      <div className="graph-item">
+                        <b>Damage Distribution</b>
+                        <DamageGraph data={results} />
+                      </div>
+
+                      <div className="graph-item">
+                        <b>Units Killed Distribution</b>
+                        <UnitKilledGraph data={results} />
+                      </div>
+                    </div>
                   )}
-                </Footer>
+              </Footer>
+              <Footer style={footerStyle}>
+                <i style={{ fontSize: '12px' }}>
+                  This tool is an unofficial fan-made probability calculator and is not affiliated with or endorsed by Games Workshop Group PLC.
+Warhammer: The Horus Heresy and all associated trademarks are the property of Games Workshop.
+All calculations are based on publicly known game mechanics and are intended for educational and gameplay assistance purposes only.
+
+                </i>
+              </Footer>
             </Layout>
         </Flex>
     );
