@@ -223,7 +223,7 @@ async def calculate(request: CalcRequest):
     keywords = request.kwords       #keywords
     calc = []                       #array of calculations
 
-    for i in range(40):
+    for i in range(60):
         calc.append(Calculations())
         modelattacks = ainput.attacks
         if ainput.amodels * ainput.abulky < dinput.dmodels * dinput.dbulky:
