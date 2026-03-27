@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from fastapi import (
     FastAPI,
     HTTPException,
+    Request,
 )
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
@@ -16,6 +17,8 @@ from sqlalchemy.ext.asyncio import (
     AsyncSession,
     create_async_engine,
 )
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.responses import Response
 from sqlalchemy.future import select
 from sqlalchemy.orm import sessionmaker
 
