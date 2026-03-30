@@ -1,0 +1,64 @@
+{
+  "hash": "d894948d",
+  "configHash": "135df27c",
+  "lockfileHash": "59a5040a",
+  "browserHash": "b9e75e57",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "fc39d9db",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "da9b9c6c",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.mjs",
+      "file": "react-router-dom.js",
+      "fileHash": "e42a5a52",
+      "needsInterop": false
+    },
+    "antd": {
+      "src": "../../node_modules/antd/es/index.js",
+      "file": "antd.js",
+      "fileHash": "bcab52ea",
+      "needsInterop": false
+    },
+    "@ant-design/icons": {
+      "src": "../../node_modules/@ant-design/icons/es/index.js",
+      "file": "@ant-design_icons.js",
+      "fileHash": "f0121412",
+      "needsInterop": false
+    },
+    "@ant-design/plots": {
+      "src": "../../node_modules/@ant-design/plots/es/index.js",
+      "file": "@ant-design_plots.js",
+      "fileHash": "13fa7681",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-AWX4WCLU": {
+      "file": "chunk-AWX4WCLU.js"
+    },
+    "chunk-FM7LIW62": {
+      "file": "chunk-FM7LIW62.js"
+    },
+    "chunk-BX6EU5FR": {
+      "file": "chunk-BX6EU5FR.js"
+    },
+    "react-dom-CO25L4PU": {
+      "file": "react-dom-CO25L4PU.js"
+    },
+    "chunk-SRQJONCG": {
+      "file": "chunk-SRQJONCG.js"
+    },
+    "chunk-WYYPSHNY": {
+      "file": "chunk-WYYPSHNY.js"
+    }
+  }
+}
