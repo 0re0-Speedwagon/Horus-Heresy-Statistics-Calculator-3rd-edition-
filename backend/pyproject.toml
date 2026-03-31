@@ -5,7 +5,6 @@ description = ""
 authors = ["Michael Rodgers <MW3Rodgers@gmail.com>"]
 readme = "README.md"
 package-mode = false
-entrypoint = "server:app"
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -22,9 +21,3 @@ flake8 = "^7.3.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-[project.scripts]
-app = "backend.server:app"
-
-[tool.vercel.scripts]
-build = "python build.py"
