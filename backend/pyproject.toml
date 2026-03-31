@@ -25,3 +25,6 @@ build-backend = "poetry.core.masonry.api"
 
 [project.scripts]
 app = "backend.server:app"
+
+[tool.vercel.scripts]
+build = "python build.py"
