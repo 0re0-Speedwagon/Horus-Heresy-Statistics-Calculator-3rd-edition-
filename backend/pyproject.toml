@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "Horus Heresy Calculator"
+name = "31st Calculator"
 version = "0.1.0"
 description = ""
 authors = ["Michael Rodgers <MW3Rodgers@gmail.com>"]
@@ -23,3 +23,5 @@ flake8 = "^7.3.0"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
+[project.scripts]
+app = "backend.server:app"

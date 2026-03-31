@@ -28,7 +28,6 @@ from sqlalchemy.orm import sessionmaker
 app = FastAPI(
     title="Calculator API", description="A simple CRUD API for managing the calculator"
 )
-print("weenis")
 
 #====================a
 # CORS Middleware
