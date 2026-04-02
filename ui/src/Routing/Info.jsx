@@ -132,14 +132,9 @@ const cStyle = {
                     </div>
                     <div>
                       <Content style={contentStyle}>
-                        <Card title = "Attacking Unit"
+                        <Space direction="horizontal" size="middle">
+                          <Card title = "Probability"
                         style={ cStyle }>
-                          <h2 style={{ 
-                          margin: 40, 
-                          whiteSpace: "nowrap", 
-                          textOverflow: "ellipsis", 
-                          overflow: "hidden" 
-                        }}>Probability</h2>
                           <p>
                               Warhammer in all games are D6 games. This means that there are 6 outcomes whenever you roll a die, thus an equal 1/6 chance that
                               you will roll a specific number between 1 and 6. With this knowledge, you would think that a 4+ would mean that you have a 50%
@@ -198,6 +193,7 @@ const cStyle = {
                               them by the total outcomes. 
                           </p> 
                         </Card>
+                        </Space>
                       </Content>
                     </div>
                     <ul>
