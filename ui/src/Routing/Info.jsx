@@ -131,17 +131,16 @@ const cStyle = {
                         }}>The Basics of Statistics</h2>
                     </div>
                     <div>
-                      <Content style={contentStyle}>
-                        <Space direction="horizontal" size="middle">
-                          <Card title = "Probability"
-                        style={ cStyle }>
-                          <p>
+                      <Space direction="horizontal" size="middle">
+                        <Card title = "Probability"
+                      style={ cStyle }>
+                        <p>
                             Warhammer in all games are D6 games. This means that there are 6 outcomes whenever you roll a die, thus an equal 1/6 chance that
                             you will roll a specific number between 1 and 6. With this knowledge, you would think that a 4+ would mean that you have a 50%
                             chance to roll a number between 4 and 6. That 50% is the probability, and is calculated by taking the successful rolls, and dividing
                             them by the total outcomes. 
-                          </p> 
-                          <math xmlns="http://www.w3.org/1998/Math/MathML">
+                        </p> 
+                        <math xmlns="http://www.w3.org/1998/Math/MathML">
                             <mfrac>
                               <mrow>
                                 <mo mathvariant="italic">[</mo>
@@ -173,9 +172,9 @@ const cStyle = {
                             <mo mathvariant="italic">=</mo>
                             <mn mathvariant="italic">50</mn>
                             <mo mathvariant="italic">%</mo>
-                          </math>
-                        </Card>
-                        <Card title = "Average"
+                        </math>
+                      </Card>
+                      <Card title = "Average"
                         style={ cStyle }>
                           <p>
                             Sometimes when rolling a die, you want to know what the average value is going to be as that can affect how you play. This value is
@@ -207,31 +206,19 @@ const cStyle = {
                             <mo mathvariant="italic">=</mo>
                             <mn mathvariant="italic">3.5</mn>
                           </math>
-                        </Card>
-                        <Card title = "The Difference"
+                      </Card>
+                      <Card title = "The Difference"
                         style={ cStyle }>
                           <p>
-                              Warhammer in all games are D6 games. This means that there are 6 outcomes whenever you roll a die, thus an equal 1/6 chance that
-                              you will roll a specific number between 1 and 6. With this knowledge, you would think that a 4+ would mean that you have a 50%
-                              chance to roll a number between 4 and 6. That 50% is the probability, and is calculated by taking the successful rolls, and dividing
-                              them by the total outcomes. 
+                            These two data points come together to tell you how good a roll is. It may sound simple but knowing that a 5+ is a 33.3% chance
+                            will help you a lot when it comes to doing quick math in your head, because now that you know that only one third of your rolls
+                            are most likely going to make it through you can start plotting out the rest of the rolls, optimising, seeing what goest best into
+                            what under specific circumstances. Knowing the expected roll helps you when you have to roll a sum such as a leadership test, knowing
+                            who to buff or which character should go with which squad can be the difference between losing a squad and keeping them in the fight. 
                           </p> 
-                        </Card>
-                        </Space>
-                      </Content>
+                      </Card>
+                      </Space>
                     </div>
-                    <ul>
-                        <li>
-                            <Typography.Link href="mailto:Mw3Rodgers@gmail.com">
-                                  Gmail(Mw3Rodgers@gmail.com)
-                            </Typography.Link>
-                        </li>
-                        <li>
-                            <Typography.Link href="https://github.com/0re0-Speedwagon/Horus-Heresy-Statistics-Calculator-3rd-edition-/issues?q=is%3Aissue%20state%3Aopen">
-                                  Git Repository Issues
-                            </Typography.Link>
-                        </li>
-                    </ul>
                 </Content>
                 <Content style={contentStyle}></Content>
                 <Content style={contentStyle}></Content>
