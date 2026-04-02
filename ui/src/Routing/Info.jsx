@@ -2,18 +2,18 @@ import React, {useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 import { Flex,
          Layout,
-         Card,
+         Typography,
          Button,
          Drawer} from 'antd';
 import '../App.css';
 import { MoreOutlined } from '@ant-design/icons';
 
-export default function Info() {
+export default function About() {
 
     const { Header, Footer, Content } = Layout;
 
     const [open, setOpen] = useState(false);
-    
+
     //==========================
     //Drawer
     //==========================
@@ -42,17 +42,21 @@ export default function Info() {
 
     //Content
     const contentStyle = {
-          textAlign: 'center',
-          fontSize: '24px',
-          minHeight: 120,
-          lineHeight: '32px',
-          color: '#000000ff',
-          backgroundColor: '#939393ff',
-          display: 'flex',
-          justifyContent: 'center',
-          align: 'center',
-          minWidth: '500px',
+      textAlign: 'center',
+      fontSize: '16px',
+      minHeight: 100,
+      lineHeight: 1.25,    
+      color: '#000000ff',
+      backgroundColor: '#939393ff',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',  
+      minWidth: '500px',
+      padding: '32px',           
+      boxSizing: 'border-box',
+      flexDirection: "column"
     };
+
 
     //Footer
     const footerStyle = {
@@ -68,20 +72,15 @@ export default function Info() {
     };
 
     //Card Styling
-    const cStyle = {
-      width: ' 50% ',
-      background: 'transparent',
-      border: '3px solid black',
-      justifyContent: 'center',
-      align: 'center',
-      margin: '5px',
-      minWidth: '130px',
-    };
-
-    //Button Styling
-    const bStyle = {
-        size:'large',
-    };
+const cStyle = {
+  width: ' 50% ',
+  background: 'transparent',
+  border: '3px solid black',
+  justifyContent: 'center',
+  align: 'center',
+  margin: '5px',
+  minWidth: '130px',
+};
 
     return(
         <Flex gap="middle" wrap>
@@ -122,14 +121,104 @@ export default function Info() {
                     }}>Warhammer: The Horus Heresy 3.0 Statistics Calculator</h4>
                 </Header>
                 <Content style={contentStyle}>
-                    <p>weenis</p>
+                    <div>
+                        <h2 style={{ 
+                          margin: 40, 
+                          whiteSpace: "nowrap", 
+                          textOverflow: "ellipsis", 
+                          overflow: "hidden" 
+                        }}>The Basics of Statistics</h2>
+                    </div>
+                    <div>
+                      <Content style={contentStyle}>
+                        <Card title = "Attacking Unit"
+                        style={ cStyle }>
+                          <h2 style={{ 
+                          margin: 40, 
+                          whiteSpace: "nowrap", 
+                          textOverflow: "ellipsis", 
+                          overflow: "hidden" 
+                        }}>Probability</h2>
+                          <p>
+                              Warhammer in all games are D6 games. This means that there are 6 outcomes whenever you roll a die, thus an equal 1/6 chance that
+                              you will roll a specific number between 1 and 6. With this knowledge, you would think that a 4+ would mean that you have a 50%
+                              chance to roll a number between 4 and 6. That 50% is the probability, and is calculated by taking the successful rolls, and dividing
+                              them by the total outcomes. 
+                          </p> 
+                          <math xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mfrac>
+                              <mrow>
+                                <mo mathvariant="italic">[</mo>
+                                <mn mathvariant="italic">4</mn>
+                                <mo mathvariant="italic">+</mo>
+                                <mn mathvariant="italic">5</mn>
+                                <mo mathvariant="italic">+</mo>
+                                <mn mathvariant="italic">6</mn>
+                                <mo mathvariant="italic">]</mo>
+                              </mrow>
+                              <mrow>
+                                <mo mathvariant="italic">[</mo>
+                                <mn mathvariant="italic">1</mn>
+                                <mo mathvariant="italic">+</mo>
+                                <mn mathvariant="italic">2</mn>
+                                <mo mathvariant="italic">+</mo>
+                                <mn mathvariant="italic">3</mn>
+                                <mo mathvariant="italic">+</mo>
+                                <mn mathvariant="italic">4</mn>
+                                <mo mathvariant="italic">+</mo>
+                                <mn mathvariant="italic">5</mn>
+                                <mo mathvariant="italic">+</mo>
+                                <mn mathvariant="italic">6</mn>
+                                <mo mathvariant="italic">]</mo>
+                              </mrow>
+                            </mfrac>
+                            <mo mathvariant="italic">=</mo>
+                            <mn mathvariant="italic">0.5</mn>
+                            <mo mathvariant="italic">=</mo>
+                            <mn mathvariant="italic">50</mn>
+                            <mo mathvariant="italic">%</mo>
+                          </math>
+                        </Card>
+                        <Card title = "Attacking Unit"
+                        style={ cStyle }>
+                          <p>
+                              Warhammer in all games are D6 games. This means that there are 6 outcomes whenever you roll a die, thus an equal 1/6 chance that
+                              you will roll a specific number between 1 and 6. With this knowledge, you would think that a 4+ would mean that you have a 50%
+                              chance to roll a number between 4 and 6. That 50% is the probability, and is calculated by taking the successful rolls, and dividing
+                              them by the total outcomes. 
+                          </p> 
+                        </Card>
+                        <Card title = "Attacking Unit"
+                        style={ cStyle }>
+                          <p>
+                              Warhammer in all games are D6 games. This means that there are 6 outcomes whenever you roll a die, thus an equal 1/6 chance that
+                              you will roll a specific number between 1 and 6. With this knowledge, you would think that a 4+ would mean that you have a 50%
+                              chance to roll a number between 4 and 6. That 50% is the probability, and is calculated by taking the successful rolls, and dividing
+                              them by the total outcomes. 
+                          </p> 
+                        </Card>
+                      </Content>
+                    </div>
+                    <ul>
+                        <li>
+                            <Typography.Link href="mailto:Mw3Rodgers@gmail.com">
+                                  Gmail(Mw3Rodgers@gmail.com)
+                            </Typography.Link>
+                        </li>
+                        <li>
+                            <Typography.Link href="https://github.com/0re0-Speedwagon/Horus-Heresy-Statistics-Calculator-3rd-edition-/issues?q=is%3Aissue%20state%3Aopen">
+                                  Git Repository Issues
+                            </Typography.Link>
+                        </li>
+                    </ul>
                 </Content>
+                <Content style={contentStyle}></Content>
+                <Content style={contentStyle}></Content>
                 <Footer style={footerStyle}>
                 <i style={{ fontSize: '12px' }}>
                   This tool is an unofficial fan-made probability calculator and is not affiliated with or endorsed by Games Workshop Group PLC.
 Warhammer: The Horus Heresy and all associated trademarks are the property of Games Workshop.
 All calculations are based on publicly known game mechanics and are intended for educational and gameplay assistance purposes only.
-
                 </i>
               </Footer>
             </Layout>
