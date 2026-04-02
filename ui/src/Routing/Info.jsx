@@ -4,7 +4,8 @@ import { Flex,
          Layout,
          Typography,
          Button,
-         Drawer} from 'antd';
+         Drawer,
+         Card} from 'antd';
 import '../App.css';
 import { MoreOutlined } from '@ant-design/icons';
 
