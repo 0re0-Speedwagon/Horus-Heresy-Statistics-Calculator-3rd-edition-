@@ -5,7 +5,8 @@ import { Flex,
          Typography,
          Button,
          Drawer,
-         Card} from 'antd';
+         Card,
+         Space} from 'antd';
 import '../App.css';
 import { MoreOutlined } from '@ant-design/icons';
 
@@ -175,7 +176,7 @@ const cStyle = {
                             <mo mathvariant="italic">%</mo>
                           </math>
                         </Card>
-                        <Card title = "Attacking Unit"
+                        <Card title = "Average"
                         style={ cStyle }>
                           <p>
                               Warhammer in all games are D6 games. This means that there are 6 outcomes whenever you roll a die, thus an equal 1/6 chance that
@@ -184,7 +185,7 @@ const cStyle = {
                               them by the total outcomes. 
                           </p> 
                         </Card>
-                        <Card title = "Attacking Unit"
+                        <Card title = "The Difference"
                         style={ cStyle }>
                           <p>
                               Warhammer in all games are D6 games. This means that there are 6 outcomes whenever you roll a die, thus an equal 1/6 chance that
