@@ -75,7 +75,7 @@ export default function About() {
 
     //Card Styling
 const cStyle = {
-  width: ' 50% ',
+  width: "33%",
   background: 'transparent',
   border: '3px solid black',
   justifyContent: 'center',
@@ -137,10 +137,10 @@ const cStyle = {
                           <Card title = "Probability"
                         style={ cStyle }>
                           <p>
-                              Warhammer in all games are D6 games. This means that there are 6 outcomes whenever you roll a die, thus an equal 1/6 chance that
-                              you will roll a specific number between 1 and 6. With this knowledge, you would think that a 4+ would mean that you have a 50%
-                              chance to roll a number between 4 and 6. That 50% is the probability, and is calculated by taking the successful rolls, and dividing
-                              them by the total outcomes. 
+                            Warhammer in all games are D6 games. This means that there are 6 outcomes whenever you roll a die, thus an equal 1/6 chance that
+                            you will roll a specific number between 1 and 6. With this knowledge, you would think that a 4+ would mean that you have a 50%
+                            chance to roll a number between 4 and 6. That 50% is the probability, and is calculated by taking the successful rolls, and dividing
+                            them by the total outcomes. 
                           </p> 
                           <math xmlns="http://www.w3.org/1998/Math/MathML">
                             <mfrac>
@@ -179,11 +179,35 @@ const cStyle = {
                         <Card title = "Average"
                         style={ cStyle }>
                           <p>
-                              Warhammer in all games are D6 games. This means that there are 6 outcomes whenever you roll a die, thus an equal 1/6 chance that
-                              you will roll a specific number between 1 and 6. With this knowledge, you would think that a 4+ would mean that you have a 50%
-                              chance to roll a number between 4 and 6. That 50% is the probability, and is calculated by taking the successful rolls, and dividing
-                              them by the total outcomes. 
-                          </p> 
+                            Sometimes when rolling a die, you want to know what the average value is going to be as that can affect how you play. This value is
+                            typically called "expected value" or <i>E</i> and is calculated via taking the sum of all possible outcomes and dividing it by the
+                            number of outcomes. A surprise to many, but the expected value of a D6 is not 3, but instead 3.5. An extension to this is rolling 2D6,
+                            where the expected value is 7 as you can simply add two expected values together to get the total expected value or run the math yourself!
+                          </p>
+                          <math xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mfrac>
+                              <mrow>
+                                <mo mathvariant="italic">[</mo>
+                                <mrow>
+                                  <mn mathvariant="italic">1</mn>
+                                  <mo mathvariant="italic">+</mo>
+                                  <mn mathvariant="italic">2</mn>
+                                  <mo mathvariant="italic">+</mo>
+                                  <mn mathvariant="italic">3</mn>
+                                  <mo mathvariant="italic">+</mo>
+                                  <mn mathvariant="italic">4</mn>
+                                  <mo mathvariant="italic">+</mo>
+                                  <mn mathvariant="italic">5</mn>
+                                  <mo mathvariant="italic">+</mo>
+                                  <mn mathvariant="italic">6</mn>
+                                </mrow>
+                                <mo mathvariant="italic">]</mo>
+                              </mrow>
+                              <mn mathvariant="italic">6</mn>
+                            </mfrac>
+                            <mo mathvariant="italic">=</mo>
+                            <mn mathvariant="italic">3.5</mn>
+                          </math>
                         </Card>
                         <Card title = "The Difference"
                         style={ cStyle }>
