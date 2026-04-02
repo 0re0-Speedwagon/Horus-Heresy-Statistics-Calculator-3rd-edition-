@@ -75,7 +75,6 @@ export default function About() {
 
     //Card Styling
 const cStyle = {
-  display: 'flex',
   background: 'transparent',
   border: '3px solid black',
   justifyContent: 'center',
