@@ -177,7 +177,7 @@ const bStyle = {
           <MoreOutlined />
         </Button>
         <h4 style={{ 
-          margin: 40, 
+          margin: 20, 
           whiteSpace: "nowrap", 
           textOverflow: "ellipsis", 
           overflow: "hidden" 
