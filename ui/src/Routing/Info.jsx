@@ -119,7 +119,7 @@ const cStyle = {
                       whiteSpace: "nowrap", 
                       textOverflow: "ellipsis", 
                       overflow: "hidden" 
-                    }}>Warhammer: The Horus Heresy 3.0 Statistics Calculator</h4>
+                    }}>Warhammer: 30k Statistics Calculator</h4>
                 </Header>
                 <Content style={contentStyle}>
                     <div>
@@ -212,7 +212,7 @@ const cStyle = {
                           <p>
                             These two data points come together to tell you how good a roll is. It may sound simple but knowing that a 5+ is a 33.3% chance
                             will help you a lot when it comes to doing quick math in your head, because now that you know that only one third of your rolls
-                            are most likely going to make it through you can start plotting out the rest of the rolls, optimising, seeing what goest best into
+                            are most likely going to make it through you can start plotting out the rest of the rolls, optimising, seeing what goes best into
                             what under specific circumstances. Knowing the expected roll helps you when you have to roll a sum such as a leadership test, knowing
                             who to buff or which character should go with which squad can be the difference between losing a squad and keeping them in the fight. 
                           </p> 

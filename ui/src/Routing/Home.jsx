@@ -181,7 +181,7 @@ const bStyle = {
           whiteSpace: "nowrap", 
           textOverflow: "ellipsis", 
           overflow: "hidden" 
-        }}>Warhammer: The Horus Heresy 3.0 Statistics Calculator</h4>
+        }}>Warhammer: 30k Statistics Calculator</h4>
         </Header>
         <Layout>
 
