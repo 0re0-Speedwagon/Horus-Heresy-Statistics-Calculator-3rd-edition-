@@ -13,8 +13,8 @@ html, body, #root {
 
 /* Change drawer background */
 .custom-drawer .ant-drawer-body {
-  background: #939393ff; /* your color */
-  color: black;        /* optional */
+  background: #939393ff;
+  color: black;     
 }
 
 .app-header {
