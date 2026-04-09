@@ -52,6 +52,18 @@ export default function HitGraph({ data }) {
         data: hcountData,
         xField: 'hcount',
         yField: 'count',
+        axis: {
+          x: {
+            title: 'Hit Count',
+            titleFill: 'black',
+            labelFill: 'black',
+          },
+          y: {
+            title: 'Frequency',
+            titleFill: 'black',
+            labelFill: 'black',
+          },
+        },
         markBackground: {
           style: {
             fill: '#eee',
