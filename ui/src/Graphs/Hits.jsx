@@ -5,7 +5,6 @@ import "../App.css";
 
 
 export default function HitGraph({ data }) {
-
     // Build frequency table for count
     const countData = React.useMemo(() => {
       const freq = {};
@@ -52,29 +51,23 @@ export default function HitGraph({ data }) {
         data: hcountData,
         xField: 'hcount',
         yField: 'count',
+        padding: [20, 20, 50, 20],
         axis: {
           x: {
             title: {
-              text: 'Hit Count',
-              spacing: 10,
+              text: "Hit Count",
+              spacing: 12,
               style: { fill: 'black' }
             },
-            label: {
-              style: { fill: 'black' }
-            }
           },
           y: {
             title: {
               text: 'Frequency',
-              spacing: 10,
+              spacing: 12,
               style: { fill: 'black' }
             },
-            label: {
-              style: { fill: 'black' }
-            }
           }
         },
-
         markBackground: {
           style: {
             fill: '#eee',
