@@ -56,6 +56,7 @@ export default function HitGraph({ data }) {
           x: {
             title: {
               text: 'Hit Count',
+              spacing: 10,
               style: { fill: 'black' }
             },
             label: {
@@ -65,6 +66,7 @@ export default function HitGraph({ data }) {
           y: {
             title: {
               text: 'Frequency',
+              spacing: 10,
               style: { fill: 'black' }
             },
             label: {

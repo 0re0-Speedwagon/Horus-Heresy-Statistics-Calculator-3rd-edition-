@@ -47,7 +47,7 @@ export default function About() {
       minHeight: 100,
       lineHeight: 1.25,    
       color: '#000000ff',
-      backgroundColor: '#939393ff',
+      backgroundColor: '#d9dad8',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',  
@@ -62,7 +62,7 @@ export default function About() {
     const footerStyle = {
           textAlign: 'center',
           color: '#000000ff',
-          backgroundColor: '#939393ff',
+          backgroundColor: '#d9dad8',
     };
 
     //Total Layout
