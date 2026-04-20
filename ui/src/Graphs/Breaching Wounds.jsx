@@ -49,6 +49,14 @@ export default function BreachWoundGraph({ data }) {
       data: countData,
       xField: 'bwcount',
       yField: 'count',
+      axis: {
+          x: {
+            title: 'Number of Breaching Wounds',
+          },
+          y: {
+            title: 'Frequency',
+          }
+        },
       markBackground: {
         style: {
           fill: '#eee',

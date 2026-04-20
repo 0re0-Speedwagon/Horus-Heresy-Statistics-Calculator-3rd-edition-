@@ -48,6 +48,14 @@ export default function FeelNoPainGraph({ data }) {
         data: countData,
         xField: 'fnpcount',
         yField: 'count',
+        axis: {
+          x: {
+            title: 'Number of successful FNP/Shroud',
+          },
+          y: {
+            title: 'Frequency',
+          }
+        },
         markBackground: {
           style: {
             fill: '#eee',

@@ -48,6 +48,14 @@ export default function UnitKilledGraph({ data }) {
         data: countData,
         xField: 'ukilled',
         yField: 'count',
+        axis: {
+          x: {
+            title: 'Number of Units Killed',
+          },
+          y: {
+            title: 'Frequency',
+          }
+        },
         markBackground: {
           style: {
             fill: '#eee',

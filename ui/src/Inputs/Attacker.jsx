@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, InputNumber} from 'antd';
+import { Button, Form, InputNumber, message} from 'antd';
 
 
 export default function AttackerInput({ onFinish, phase }) {
@@ -15,6 +15,15 @@ export default function AttackerInput({ onFinish, phase }) {
     const inStyle = {
       width: 130
     };
+    const [messageApi, contextHolder] = message.useMessage();
+
+
+    const success = () => {
+    messageApi.open({
+      type: 'success',
+      content: 'Attacker Submitted',
+    });
+  };
 
     return (
         <Form name="attacker"
@@ -101,7 +110,8 @@ export default function AttackerInput({ onFinish, phase }) {
                              step={1}/>
               </Form.Item>}
               <Form.Item style={{ textAlign: "center" }}>
-                <Button type="primary" htmlType="submit"> 
+                {contextHolder}
+                <Button type="primary" htmlType="submit" onClick={success}> 
                   Set Attacker 
                 </Button>
               </Form.Item>

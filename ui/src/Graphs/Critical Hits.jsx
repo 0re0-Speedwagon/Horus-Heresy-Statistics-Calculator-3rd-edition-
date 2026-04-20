@@ -48,12 +48,19 @@ export default function CritHitGraph({ data }) {
         data: countData,
         xField: 'ccount',
         yField: 'count',
+        axis: {
+          x: {
+            title: 'Number of Critical Hits',
+          },
+          y: {
+            title: 'Frequency',
+          }
+        },
         markBackground: {
           style: {
             fill: '#eee',
           },
         },
-
         //Scale
         scale: {
             y: {

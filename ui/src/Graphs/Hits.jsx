@@ -54,18 +54,10 @@ export default function HitGraph({ data }) {
         padding: [20, 20, 50, 20],
         axis: {
           x: {
-            title: {
-              text: "Hit Count",
-              spacing: 12,
-              style: { fill: 'black' }
-            },
+            title: 'Number of Successful Hits',
           },
           y: {
-            title: {
-              text: 'Frequency',
-              spacing: 12,
-              style: { fill: 'black' }
-            },
+            title: 'Frequency',
           }
         },
         markBackground: {
