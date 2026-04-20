@@ -38,7 +38,7 @@ export default function About() {
       height: 100,
       paddingInline: 48,
       lineHeight: '64px',
-      backgroundColor: '#525252ff',
+      backgroundColor: 'rgb(113, 113, 113)',
       border: '5px solid black',
     };
 

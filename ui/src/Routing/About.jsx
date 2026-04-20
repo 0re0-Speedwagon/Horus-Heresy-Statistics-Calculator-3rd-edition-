@@ -47,7 +47,7 @@ export default function About() {
       minHeight: 100,
       lineHeight: 1.25,    
       color: '#000000ff',
-      backgroundColor: '#d9dad8',
+      backgroundColor: '#939393ff',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',  
@@ -62,7 +62,7 @@ export default function About() {
     const footerStyle = {
           textAlign: 'center',
           color: '#000000ff',
-          backgroundColor: '#d9dad8',
+          backgroundColor: '#939393ff',
     };
 
     //Total Layout
@@ -99,7 +99,7 @@ export default function About() {
                     </ul>
                 </Drawer>
                 <Header style={headerStyle} className="app-header">
-                    <Button ghost onClick={showDrawer} className="drawer-button">
+                    <Button ghost onClick={showDrawer} className="drawer-button" >
                       <MoreOutlined />
                     </Button>
                     <h4 style={{ 
@@ -133,11 +133,6 @@ export default function About() {
                         </p>
                     </div>
                     <ul>
-                        <li>
-                            <Typography.Link href="mailto:Mw3Rodgers@gmail.com">
-                                  Gmail(Mw3Rodgers@gmail.com)
-                            </Typography.Link>
-                        </li>
                         <li>
                             <Typography.Link href="https://github.com/0re0-Speedwagon/Horus-Heresy-Statistics-Calculator-3rd-edition-/issues?q=is%3Aissue%20state%3Aopen">
                                   Git Repository Issues

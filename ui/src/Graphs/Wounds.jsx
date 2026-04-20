@@ -52,6 +52,14 @@ export default function WoundGraph({ data }) {
         data: countData,
         xField: 'wcount',
         yField: 'count',
+        axis: {
+          x: {
+            title: 'Number of Successful Wounds',
+          },
+          y: {
+            title: 'Frequency',
+          }
+        },
         markBackground: {
           style: {
             fill: '#eee',

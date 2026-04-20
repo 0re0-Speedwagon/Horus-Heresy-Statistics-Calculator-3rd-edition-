@@ -48,6 +48,14 @@ export default function SaveGraph({ data }) {
         data: countData,
         xField: 'scount',
         yField: 'count',
+        axis: {
+          x: {
+            title: 'Number of Successful Saves',
+          },
+          y: {
+            title: 'Frequency',
+          }
+        },
         markBackground: {
           style: {
             fill: '#eee',

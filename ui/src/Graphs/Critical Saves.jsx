@@ -48,6 +48,14 @@ export default function CritSaveGraph({ data }) {
         data: countData,
         xField: 'cscount',
         yField: 'count',
+        axis: {
+          x: {
+            title: 'Number of Critical Saves',
+          },
+          y: {
+            title: 'Frequency',
+          }
+        },
         markBackground: {
           style: {
             fill: '#eee',

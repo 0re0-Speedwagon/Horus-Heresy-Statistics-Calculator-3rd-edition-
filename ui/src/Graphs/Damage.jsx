@@ -48,6 +48,14 @@ export default function DamageGraph({ data }) {
         data: countData,
         xField: 'damage',
         yField: 'count',
+        axis: {
+          x: {
+            title: 'Total Damage Delt',
+          },
+          y: {
+            title: 'Frequency',
+          }
+        },
         markBackground: {
           style: {
             fill: '#eee',

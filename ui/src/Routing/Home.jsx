@@ -96,7 +96,7 @@ const headerStyle = {
   height: 100,
   paddingInline: 48,
   lineHeight: '64px',
-  backgroundColor: '#3D4B4D',
+  backgroundColor: 'rgb(113, 113, 113)',
   border: '5px solid black',
 };
 
