@@ -143,6 +143,14 @@ const bStyle = {
     size:'large',
 };
 
+//Graph setting helper
+function onlyZero(data, field) {
+  const values = data.map(r => r[field] ?? 0);
+  const unique = [...new Set(values)];
+  return unique.length === 1 && unique[0] === 0;
+}
+
+
 //========================RETURN========================
 
     return(
@@ -220,50 +228,60 @@ const bStyle = {
               <Footer style={footerStyle}>
                   {results.length > 0 && (
                     <div className="graph-grid">
-                      <div className="graph-item">
-                        <b>Hit Distribution</b>
-                        <HitGraph data={results} />
-                      </div>
-
+                      {!onlyZero(results, "hcount") && (
+                        <div className="graph-item">
+                          <b>Hit Distribution</b>
+                          <HitGraph data={results} />
+                        </div>
+                      )}
+                      {!onlyZero(results, "ccount") && (
                       <div className="graph-item">
                         <b>Critical Hit Distribution</b>
                         <CritHitGraph data={results} />
                       </div>
-
+                      )}
+                      {!onlyZero(results, "wcount") && (
                       <div className="graph-item">
-                        <b>Wound Distribution</b>
+                        <b>{defInput.vehicle ? "Penetrating Distribution" : "Wound Distribution"}</b>
                         <WoundGraph data={results} />
                       </div>
-                      
+                      )}
+                      {!onlyZero(results, "bwcount") && (
                       <div className="graph-item">
                         <b>Breaching Distribution</b>
                         <BreachWoundGraph data={results} />
                       </div>
-
+                      )}
+                      {!onlyZero(results, "scount") && (
                       <div className="graph-item">
                         <b>Save Distribution</b>
                         <SaveGraph data={results} />
                       </div>
-
+                      )}
+                      {!onlyZero(results, "cscount") && (
                       <div className="graph-item">
                         <b>Critical Save Distribution</b>
                         <CritSaveGraph data={results} />
                       </div>
-
+                      )}
+                      {!onlyZero(results, "fnpcount") && (
                       <div className="graph-item">
                         <b>Feel No Pain Distribution</b>
                         <FeelNoPainGraph data={results} />
                       </div>
-
+                      )}
+                      {!onlyZero(results, "damage") && (
                       <div className="graph-item">
                         <b>Damage Distribution</b>
                         <DamageGraph data={results} />
                       </div>
-
+                      )}
+                      {!onlyZero(results, "ukilled") && (
                       <div className="graph-item">
                         <b>Units Killed Distribution</b>
                         <UnitKilledGraph data={results} />
                       </div>
+                      )}
                     </div>
                   )}
               </Footer>

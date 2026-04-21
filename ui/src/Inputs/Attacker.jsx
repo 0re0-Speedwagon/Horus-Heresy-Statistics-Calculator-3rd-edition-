@@ -12,18 +12,18 @@ export default function AttackerInput({ onFinish, phase }) {
     const [crit, setCrit] = useState(0);
     const [abulky, setABulky] = useState(0);
 
+    const [messageApi, contextHolder] = message.useMessage();
+
     const inStyle = {
       width: 130
     };
-    const [messageApi, contextHolder] = message.useMessage();
-
 
     const success = () => {
-    messageApi.open({
-      type: 'success',
-      content: 'Attacker Submitted',
-    });
-  };
+      messageApi.open({
+        type: 'success',
+        content: 'Attacker Submitted',
+      });
+    };
 
     return (
         <Form name="attacker"

@@ -8,6 +8,9 @@ import { Flex,
 import '../App.css';
 import { MoreOutlined } from '@ant-design/icons';
 
+//The following has not been implemented propperly yet: bulky, rending, shred, shrouded, flier, skyfire, deflagrate,
+// palette preferences, removal of setting buttons for inputs, and saving preferences when leaving the site.
+
 export default function About() {
 
     const { Header, Footer, Content } = Layout;
@@ -128,9 +131,6 @@ export default function About() {
                             repository or email me using the gmail below!
                         </p> 
                         <br />
-                        <p>The following has not been implemented propperly yet: bulky, rending, shred, shrouded, flier, skyfire, deflagrate, palette preferences,
-                            removal of setting buttons for inputs, and saving preferences when leaving the site.
-                        </p>
                     </div>
                     <ul>
                         <li>

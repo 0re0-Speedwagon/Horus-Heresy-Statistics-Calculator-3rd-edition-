@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, InputNumber, Checkbox, Radio } from 'antd';
+import { Button, Form, InputNumber, Checkbox, message, Radio } from 'antd';
 
 export default function KeywordsInput({ onFinish, onPhaseChange }) {
     const [snap, setSnap] = useState(false);
@@ -16,16 +16,27 @@ export default function KeywordsInput({ onFinish, onPhaseChange }) {
 
     const [rblow, setRBlow] = useState(0);
     const [skyfire, setSkyfire] = useState(false);
+    
+    const [messageApi, contextHolder] = message.useMessage();
 
-const inStyle = {
+    const inStyle = {
       width: 110
     };
 
-const handlePhaseChange = (e) => {
-    setPhase(e.target.value);
-    onPhaseChange(e.target.value);   // send to parent
-    console.log(breaching)
-  };
+    const success = () => {
+      messageApi.open({
+        type: 'success',
+        content: 'Attacker Keywords Submitted',
+      });
+    };
+
+    const handlePhaseChange = (e) => {
+        setPhase(e.target.value);
+        onPhaseChange(e.target.value);   // send to parent
+        console.log(breaching)
+    };
+
+
     return (
         <>
         <Radio.Group name="phase" onChange={handlePhaseChange}>
@@ -145,8 +156,8 @@ const handlePhaseChange = (e) => {
                          style={{ width: 120 }}>
                 <Checkbox style={{ size: "large"}}></Checkbox>
               </Form.Item>}
-              
-              <Button type="primary" htmlType="submit">
+              {contextHolder}
+              <Button type="primary" htmlType="submit" onClick={success}>
                 Set Keywords
             </Button>
         </Form>

@@ -76,6 +76,10 @@ export default function SaveGraph({ data }) {
     //======================
     //Actual Return
     //======================
+    if (maxValue === 100) {
+      return null;   // or return <div>No data</div>;
+    }
+    
     return(
         <div className="graph-wrapper">
           <Column {...countConfig} />
