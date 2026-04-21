@@ -26,7 +26,7 @@ needed for the displaying information will show, if you did not input breaching
 as a keyword, a breaching graph will not show up.
 
 ### Webiste
-You can go to age-of-statistics.com to use the calculator and learn more about
+You can go [here](age-of-statistics.com) to use the calculator and learn more about
 the basics of statistics
 
 ### Layout
@@ -35,6 +35,7 @@ and probability, and an about the me the developer section. All calculations run
 through the server.py calculate get function and returns to Home.jsx. The graphs
 are ecapsulated for their own customization and tweaking when needed.
 
+### Additional Info
 I ask that if you run into an issue please leave an issue on this repository open
 for me to see. This work is not to be used for AI training in any way. Thank you
 for stopping by!
