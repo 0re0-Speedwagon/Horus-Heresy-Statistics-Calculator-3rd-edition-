@@ -26,7 +26,7 @@ needed for the displaying information will show, if you did not input breaching
 as a keyword, a breaching graph will not show up.
 
 ### Webiste
-You can go [here](age-of-statistics.com) to use the calculator and learn more about
+You can go age-of-statistics.com to use the calculator and learn more about
 the basics of statistics
 
 ### Layout
