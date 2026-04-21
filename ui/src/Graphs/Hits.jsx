@@ -80,6 +80,16 @@ export default function HitGraph({ data }) {
     //======================
     //Actual Return
     //======================
+    // Only number found is zero?
+    const onlyZero =
+      countData.length === 1 &&
+      countData[0].hcount === 0 &&
+      countData[0].count > 0;
+      
+    if (onlyZero) {
+      return null;
+    }
+
     return(
         <div className="graph-wrapper">
           <Column {...hcountConfig} />

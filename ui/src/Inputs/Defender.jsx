@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, InputNumber, Checkbox } from 'antd';
+import { Button, Form, InputNumber, Checkbox, message } from 'antd';
 
 export default function DefenderInput({ onFinish, phase }) {
     const [dmodels, setDmodels] = useState(0);
@@ -15,9 +15,18 @@ export default function DefenderInput({ onFinish, phase }) {
     const [shroud, setShrould] = useState(false);
     const [dbulky, setDBulky] = useState(0);
 
+    const [messageApi, contextHolder] = message.useMessage();
+
     const inStyle = {
       width: 140
-  };
+    };
+
+    const success = () => {
+      messageApi.open({
+        type: 'success',
+        content: 'Defender Submitted',
+      });
+    };
 
     return (
         <Form name="defender"
@@ -147,9 +156,8 @@ export default function DefenderInput({ onFinish, phase }) {
                           setFlier(e.target.checked);
                         }}/>
             </Form.Item>
-            <Button type="primary"
-                    htmlType="submit"
-                    >
+            {contextHolder}
+            <Button type="primary" htmlType="submit" onClick={success}>
                 Set Defender
             </Button>
         </Form>

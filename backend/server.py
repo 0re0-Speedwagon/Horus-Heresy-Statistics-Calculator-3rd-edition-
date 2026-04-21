@@ -262,7 +262,7 @@ async def calculate(request: CalcRequest):
 
         # Regular Save
         target = saving(ainput, dinput)
-        for _ in range(calc[i].wcount):                            #how many regular rolls in save were unsuccessful
+        for _ in range(calc[i].wcount + calc[i].bwcount):                     #how many regular rolls in save were unsuccessful
             num = random.randint(1, 6)
             if num >= target:
                 calc[i].scount += 1
@@ -273,7 +273,7 @@ async def calculate(request: CalcRequest):
             if num >= target:
                 calc[i].cscount += 1
 
-        calc[i].damage = ((calc[i].wcount - calc[i].scount) * max(ainput.D - dinput.ewarrior, 1)) + ((calc[i].ccount - calc[i].cscount) * max(ainput.D - dinput.ewarrior, 1))
+        calc[i].damage = ((calc[i].wcount + calc[i].bwcount - calc[i].scount) * max(ainput.D - dinput.ewarrior, 1)) + ((calc[i].ccount - calc[i].cscount) * max(ainput.D - dinput.ewarrior, 1))
 
         # Feel No Pain
         if dinput.fnp < 7:                          #if a fnp actually exists
@@ -284,9 +284,9 @@ async def calculate(request: CalcRequest):
 
         # Damage Allocation
         model = dinput.W                                                                           #initial model set
-        for _ in range((calc[i].wcount - calc[i].scount) + (calc[i].ccount - calc[i].cscount)):    #unsaved wounds loop
+        for _ in range((calc[i].wcount + calc[i].bwcount - calc[i].scount) + (calc[i].ccount - calc[i].cscount)):    #unsaved wounds loop
             model -= max(ainput.D - dinput.ewarrior, 1)                                            #apply damage to model
-            if model <= 0:                                                                         #reset model and increment if dead
+            if model <= 0:                                 #reset model and increment if dead
                 model = dinput.W
                 calc[i].ukilled += 1
 

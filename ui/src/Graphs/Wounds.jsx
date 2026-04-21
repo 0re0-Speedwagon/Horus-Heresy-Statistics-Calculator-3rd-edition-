@@ -21,7 +21,7 @@ export default function WoundGraph({ data }) {
   }, [data]);
 
   //Max Value Memo for having it as a global
-  const maxCount = React.useMemo(() => {
+  const maxValue = React.useMemo(() => {
     return countData.length
       ? Math.max(...countData.map(d => d.count))
       : 0;
@@ -69,7 +69,7 @@ export default function WoundGraph({ data }) {
         //Scale
         scale: {
             y: {
-            domain: [0, (maxCount + (maxCount * .25))],
+            domain: [0, (maxValue + (maxValue * .25))],
             nice: false,     // prevents auto rounding the top
             padding: 0,      // removes extra headroom
           },
@@ -80,6 +80,10 @@ export default function WoundGraph({ data }) {
     //======================
     //Actual Return
     //======================
+    if (maxValue === 100) {
+      return null;   // or return <div>No data</div>;
+    }
+
     return(
         <div className="graph-wrapper">
           <Column {...countConfig} />
